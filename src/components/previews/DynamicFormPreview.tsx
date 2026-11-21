@@ -64,8 +64,8 @@ export default function DynamicFormPreview() {
   };
 
   return (
-    <div className="space-y-6">
-      <div className="rounded-xl border border-zinc-200 dark:border-zinc-800 bg-white dark:bg-zinc-900 p-6 shadow-xs">
+    <div className="w-full space-y-6">
+      <div className="w-full">
         <DynamicForm
           schema={sampleFormSchema}
           submitText="Create Account"

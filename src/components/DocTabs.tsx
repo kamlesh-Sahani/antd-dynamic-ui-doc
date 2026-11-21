@@ -74,8 +74,8 @@ export default function DocTabs({
       {/* Tabs Content */}
       <div className="p-6">
         {activeTab === "preview" && (
-          <div className="p-6 rounded-xl border border-zinc-200/80 dark:border-zinc-800 bg-zinc-50/50 dark:bg-zinc-950/30 min-h-[160px] flex items-center justify-center">
-            <div className="w-full">{preview}</div>
+          <div className="w-full">
+            {preview}
           </div>
         )}
 

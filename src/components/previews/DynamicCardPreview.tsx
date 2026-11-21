@@ -38,10 +38,13 @@ const sampleCards = [
 
 export default function DynamicCardPreview() {
   return (
-    <div className="space-y-4">
-      <div className="flex items-center justify-between text-xs text-zinc-500 bg-zinc-100 dark:bg-zinc-800/60 p-2.5 rounded-lg border border-zinc-200 dark:border-zinc-800">
-        <span>Infinite Scroll Card Grid Presentation</span>
-        <span className="font-mono">3 Sample Entities</span>
+    <div className="w-full space-y-4">
+      <div className="flex items-center justify-between text-xs px-1 text-zinc-500">
+        <div className="flex items-center gap-2">
+          <span className="w-2 h-2 rounded-full bg-emerald-500" />
+          <span className="font-semibold text-zinc-700 dark:text-zinc-300">Infinite Scroll Card Grid</span>
+        </div>
+        <span className="font-mono text-zinc-400 text-[11px]">3 sample entities</span>
       </div>
 
       <div className="grid grid-cols-1 md:grid-cols-3 gap-4">

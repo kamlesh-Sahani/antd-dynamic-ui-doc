@@ -288,9 +288,9 @@ export default function FormFieldPreview({ type }: FormFieldPreviewProps) {
   };
 
   return (
-    <div className="space-y-4">
+    <div className="w-full space-y-4">
       <FormProvider {...methods}>
-        <div className="p-4 rounded-xl border border-zinc-200 dark:border-zinc-800 bg-white dark:bg-zinc-900 shadow-xs">
+        <div className="w-full py-2">
           {renderField()}
         </div>
       </FormProvider>
