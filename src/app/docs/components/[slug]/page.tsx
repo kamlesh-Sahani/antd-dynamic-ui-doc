@@ -78,21 +78,21 @@ export default async function ComponentDetailPage({
   const renderPreview = (exampleIndex: number = 0) => {
     switch (slug) {
       case "dynamic-table":
-        return <DynamicTablePreview exampleIndex={exampleIndex} />;
+        return <DynamicTablePreview key={`dynamic-table-${exampleIndex}`} exampleIndex={exampleIndex} />;
       case "dynamic-form":
-        return <DynamicFormPreview exampleIndex={exampleIndex} />;
+        return <DynamicFormPreview key={`dynamic-form-${exampleIndex}`} exampleIndex={exampleIndex} />;
       case "dynamic-modal":
-        return <DynamicModalPreview exampleIndex={exampleIndex} />;
+        return <DynamicModalPreview key={`dynamic-modal-${exampleIndex}`} exampleIndex={exampleIndex} />;
       case "dynamic-drawer":
-        return <DynamicDrawerPreview exampleIndex={exampleIndex} />;
+        return <DynamicDrawerPreview key={`dynamic-drawer-${exampleIndex}`} exampleIndex={exampleIndex} />;
       case "dynamic-card":
-        return <DynamicCardPreview exampleIndex={exampleIndex} />;
+        return <DynamicCardPreview key={`dynamic-card-${exampleIndex}`} exampleIndex={exampleIndex} />;
       case "dynamic-header":
-        return <DynamicHeaderPreview exampleIndex={exampleIndex} />;
+        return <DynamicHeaderPreview key={`dynamic-header-${exampleIndex}`} exampleIndex={exampleIndex} />;
       case "dynamic-sidebar":
-        return <DynamicSidebarPreview exampleIndex={exampleIndex} />;
+        return <DynamicSidebarPreview key={`dynamic-sidebar-${exampleIndex}`} exampleIndex={exampleIndex} />;
       default:
-        return <FormFieldPreview type={slug} exampleIndex={exampleIndex} />;
+        return <FormFieldPreview key={`${slug}-${exampleIndex}`} type={slug} exampleIndex={exampleIndex} />;
     }
   };
 
@@ -190,7 +190,7 @@ export default async function ComponentDetailPage({
         <div className="space-y-8">
           {examplesList.map((example, idx) => (
             <ExampleCard
-              key={idx}
+              key={`${slug}-example-card-${idx}`}
               index={idx}
               title={example.title}
               description={example.description}
