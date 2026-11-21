@@ -165,11 +165,11 @@ export default function UtilsPage() {
           </div>
         </div>
 
-        <div className="p-3 rounded-lg bg-zinc-900 text-xs font-mono flex items-center justify-between border border-zinc-800">
-          <span className="text-zinc-400">
+        <div className="p-3 rounded-lg bg-white dark:bg-zinc-900 text-xs font-mono flex items-center justify-between border border-blue-200/80 dark:border-zinc-800 shadow-xs">
+          <span className="text-zinc-600 dark:text-zinc-400">
             {selectedUtilForTest}({playgroundInput}) =&gt;
           </span>
-          <span className="text-emerald-400 font-bold">
+          <span className="text-emerald-600 dark:text-emerald-400 font-bold">
             {typeof playgroundResult === "boolean"
               ? playgroundResult
                 ? "true"

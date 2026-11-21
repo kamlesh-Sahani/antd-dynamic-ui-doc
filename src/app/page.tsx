@@ -93,19 +93,19 @@ export default function HomePage() {
 
         {/* Quick Install Terminal */}
         <div className="pt-6 max-w-2xl mx-auto">
-          <div className="rounded-xl border border-zinc-200 dark:border-zinc-800 bg-zinc-950 text-left overflow-hidden shadow-lg">
-            <div className="flex items-center justify-between px-4 py-2.5 bg-zinc-900 border-b border-zinc-800">
+          <div className="rounded-xl border border-zinc-200 dark:border-zinc-800 bg-zinc-50/80 dark:bg-zinc-950 text-left overflow-hidden shadow-xs">
+            <div className="flex items-center justify-between px-4 py-2.5 bg-zinc-100/80 dark:bg-zinc-900 border-b border-zinc-200 dark:border-zinc-800">
               <div className="flex items-center gap-2">
-                <Terminal size={14} className="text-zinc-400" />
+                <Terminal size={14} className="text-zinc-500 dark:text-zinc-400" />
                 <div className="flex gap-1.5 ml-2">
                   {(["npm", "pnpm", "yarn"] as const).map((pm) => (
                     <button
                       key={pm}
                       onClick={() => setSelectedPm(pm)}
-                      className={`text-xs px-2.5 py-0.5 rounded-md transition-colors cursor-pointer ${
+                      className={`text-xs px-2.5 py-0.5 rounded-md transition-all cursor-pointer ${
                         selectedPm === pm
-                          ? "bg-zinc-800 text-blue-400 font-semibold"
-                          : "text-zinc-400 hover:text-zinc-200"
+                          ? "bg-white dark:bg-zinc-800 text-blue-600 dark:text-blue-400 font-semibold shadow-xs border border-zinc-200 dark:border-zinc-700"
+                          : "text-zinc-500 dark:text-zinc-400 hover:text-zinc-800 dark:hover:text-zinc-200"
                       }`}
                     >
                       {pm}
@@ -115,12 +115,12 @@ export default function HomePage() {
               </div>
               <button
                 onClick={handleCopy}
-                className="flex items-center gap-1.5 text-xs text-zinc-400 hover:text-zinc-200 py-0.5 px-2 rounded-md hover:bg-zinc-800 transition-colors cursor-pointer"
+                className="flex items-center gap-1.5 text-xs text-zinc-600 dark:text-zinc-400 hover:text-zinc-900 dark:hover:text-zinc-200 py-0.5 px-2 rounded-md hover:bg-zinc-200/60 dark:hover:bg-zinc-800 transition-colors cursor-pointer"
               >
                 {copiedPkg ? (
                   <>
-                    <Check size={13} className="text-emerald-400" />
-                    <span className="text-emerald-400 font-medium">Copied</span>
+                    <Check size={13} className="text-emerald-600 dark:text-emerald-400" />
+                    <span className="text-emerald-600 dark:text-emerald-400 font-medium">Copied</span>
                   </>
                 ) : (
                   <>
@@ -130,8 +130,8 @@ export default function HomePage() {
                 )}
               </button>
             </div>
-            <div className="p-4 font-mono text-xs text-zinc-200 overflow-x-auto whitespace-nowrap">
-              <span className="text-blue-400">$ </span>
+            <div className="p-4 font-mono text-xs text-zinc-800 dark:text-zinc-200 bg-white dark:bg-zinc-950 overflow-x-auto whitespace-nowrap">
+              <span className="text-blue-600 dark:text-blue-400 font-bold">$ </span>
               {installCmds[selectedPm]}
             </div>
           </div>
