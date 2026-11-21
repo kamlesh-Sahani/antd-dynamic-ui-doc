@@ -3,7 +3,7 @@ import { notFound } from "next/navigation";
 import type { Metadata } from "next";
 import { COMPONENTS_DATA } from "@/data/componentsData";
 import PropsTable from "@/components/PropsTable";
-import MultiCodeExamples from "@/components/MultiCodeExamples";
+import ExampleCard from "@/components/ExampleCard";
 import SchemaViewer from "@/components/SchemaViewer";
 import TroubleshootCard from "@/components/TroubleshootCard";
 import DynamicTablePreview from "@/components/previews/DynamicTablePreview";
@@ -18,7 +18,6 @@ import {
   CheckCircle2,
   Layers,
   Play,
-  Code2,
   Sliders,
   FileJson,
   AlertTriangle,
@@ -76,26 +75,39 @@ export default async function ComponentDetailPage({
     notFound();
   }
 
-  const renderPreview = () => {
+  const renderPreview = (exampleIndex: number = 0) => {
     switch (slug) {
       case "dynamic-table":
-        return <DynamicTablePreview />;
+        return <DynamicTablePreview exampleIndex={exampleIndex} />;
       case "dynamic-form":
-        return <DynamicFormPreview />;
+        return <DynamicFormPreview exampleIndex={exampleIndex} />;
       case "dynamic-modal":
-        return <DynamicModalPreview />;
+        return <DynamicModalPreview exampleIndex={exampleIndex} />;
       case "dynamic-drawer":
-        return <DynamicDrawerPreview />;
+        return <DynamicDrawerPreview exampleIndex={exampleIndex} />;
       case "dynamic-card":
-        return <DynamicCardPreview />;
+        return <DynamicCardPreview exampleIndex={exampleIndex} />;
       case "dynamic-header":
-        return <DynamicHeaderPreview />;
+        return <DynamicHeaderPreview exampleIndex={exampleIndex} />;
       case "dynamic-sidebar":
-        return <DynamicSidebarPreview />;
+        return <DynamicSidebarPreview exampleIndex={exampleIndex} />;
       default:
-        return <FormFieldPreview type={slug} />;
+        return <FormFieldPreview type={slug} exampleIndex={exampleIndex} />;
     }
   };
+
+  const examplesList =
+    item.examples && item.examples.length > 0
+      ? item.examples
+      : [
+          {
+            title: "Basic Setup",
+            description: `Standard integration for ${item.title} with default configurations.`,
+            code: item.code,
+            language: "tsx",
+            filename: `${item.title}.basic.tsx`,
+          },
+        ];
 
   return (
     <div className="space-y-12 pb-16">
@@ -136,26 +148,7 @@ export default async function ComponentDetailPage({
         )}
       </div>
 
-      {/* 2. Live Interactive Preview */}
-      <section className="space-y-3">
-        <div className="flex items-center justify-between">
-          <div className="space-y-1">
-            <h2 className="text-xl font-bold text-[#362117] flex items-center gap-2">
-              <Play size={18} className="text-[#c4432b]" />
-              <span>Live Interactive Preview</span>
-            </h2>
-            <p className="text-xs text-[#8a7566]">
-              Interact with the live component directly in this browser sandbox.
-            </p>
-          </div>
-        </div>
-
-        <div className="rounded-2xl border border-[#ede5d8] bg-white p-6 shadow-[0_2px_12px_rgba(54,33,23,0.04)]">
-          {renderPreview()}
-        </div>
-      </section>
-
-      {/* 3. Props & Configuration Table */}
+      {/* 2. Props & Configuration Table */}
       <section className="space-y-3">
         <div className="space-y-1">
           <div className="flex items-center gap-2">
@@ -177,26 +170,40 @@ export default async function ComponentDetailPage({
         <PropsTable props={item.props || []} />
       </section>
 
-      {/* 4. Interactive Code Examples & Features */}
-      <section className="space-y-3">
+      {/* 3. Interactive Examples & Live Demos */}
+      <section className="space-y-6">
         <div className="space-y-1">
-          <h2 className="text-xl font-bold text-[#362117] flex items-center gap-2">
-            <Code2 size={18} className="text-[#c4432b]" />
-            <span>Interactive Code Examples & Features</span>
-          </h2>
+          <div className="flex items-center gap-2">
+            <h2 className="text-xl font-bold text-[#362117] flex items-center gap-2">
+              <Play size={18} className="text-[#c4432b]" />
+              <span>Interactive Examples & Live Previews</span>
+            </h2>
+            <span className="text-[10px] font-sans px-2.5 py-0.5 rounded-full bg-[#f2ebde] text-[#785c4b] font-bold border border-[#ede5d8]">
+              {examplesList.length} Demos
+            </span>
+          </div>
           <p className="text-xs text-[#8a7566]">
-            Switch between practical examples below demonstrating basic setups, complete props, and declarative backend schemas.
+            Every example includes its own live, interactive preview element alongside the corresponding copyable TypeScript snippet.
           </p>
         </div>
 
-        <MultiCodeExamples
-          componentTitle={item.title}
-          defaultCode={item.code}
-          examples={item.examples}
-        />
+        <div className="space-y-8">
+          {examplesList.map((example, idx) => (
+            <ExampleCard
+              key={idx}
+              index={idx}
+              title={example.title}
+              description={example.description}
+              code={example.code}
+              language={example.language || "tsx"}
+              filename={example.filename}
+              preview={renderPreview(idx)}
+            />
+          ))}
+        </div>
       </section>
 
-      {/* 5. Expected API Response Schema (if available) */}
+      {/* 4. Expected API Response Schema (if available) */}
       {item.schema && (
         <section className="space-y-3">
           <div className="space-y-1">
@@ -213,7 +220,7 @@ export default async function ComponentDetailPage({
         </section>
       )}
 
-      {/* 6. Troubleshooting & Response Mismatches (if available) */}
+      {/* 5. Troubleshooting & Response Mismatches (if available) */}
       {item.troubleshooting && item.troubleshooting.length > 0 && (
         <section className="space-y-3">
           <div className="space-y-1">

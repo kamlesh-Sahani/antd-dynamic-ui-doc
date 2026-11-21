@@ -1,6 +1,6 @@
 "use client";
 
-import React from "react";
+import React, { useState } from "react";
 import { useForm, FormProvider } from "react-hook-form";
 import {
   InputField,
@@ -24,29 +24,39 @@ import {
   UploadField,
   ButtonField,
   LoadingSpinner,
+  ErrorApi,
 } from "antd-dynamic-ui";
-import { ErrorApi } from "antd-dynamic-ui";
+import { Switch, message, Button, Tag } from "antd";
+import { CheckCircle2, Sliders, Sparkles } from "lucide-react";
 
 interface FormFieldPreviewProps {
   type: string;
+  exampleIndex?: number;
 }
 
-export default function FormFieldPreview({ type }: FormFieldPreviewProps) {
+export default function FormFieldPreview({ type, exampleIndex = 0 }: FormFieldPreviewProps) {
+  const [isDisabled, setIsDisabled] = useState(false);
+  const [btnLoading, setBtnLoading] = useState(false);
+  const [submitOutput, setSubmitOutput] = useState<any>(null);
+
   const methods = useForm({
     mode: "onChange",
     defaultValues: {
       testInput: "Sample text",
       testPassword: "secretPassword123",
-      testSelect: "option2",
-      testDate: "2026-11-21",
+      testSelect: "editor",
+      testDate: undefined,
+      testDateRange: undefined,
+      testTime: undefined,
+      testTimeRange: undefined,
       testNumber: 42,
-      testTextArea: "This is a multi-line text area content.",
+      testTextArea: "This is a multi-line text area content for enterprise use.",
       testSwitch: true,
       testCheckbox: true,
       testRadio: "b",
       testSlider: 65,
       testRating: 4,
-      testColor: "#2563eb",
+      testColor: "#e05d44",
       testCountry: "US",
       testPhone: "+1 (555) 019-2834",
       testOtp: "123456",
@@ -63,10 +73,11 @@ export default function FormFieldPreview({ type }: FormFieldPreviewProps) {
           <InputField
             id="testInput"
             control={ctrl}
-            label="Username / Handle"
+            label={exampleIndex === 1 ? "Complete Enterprise Username (With Tooltip & Help)" : "Username / Handle"}
             placeholder="Enter your username"
             tooltip="Must be 3-20 characters alphanumeric"
-            required
+            required={exampleIndex > 0}
+            disabled={isDisabled}
           />
         );
       case "password-field":
@@ -74,10 +85,11 @@ export default function FormFieldPreview({ type }: FormFieldPreviewProps) {
           <PasswordField
             id="testPassword"
             control={ctrl}
-            label="Account Password"
+            label={exampleIndex === 1 ? "Encrypted Master Password (Audited)" : "Account Password"}
             placeholder="Enter password"
             tooltip="Minimum 8 characters with at least one number"
-            required
+            required={exampleIndex > 0}
+            disabled={isDisabled}
           />
         );
       case "select-field":
@@ -85,13 +97,14 @@ export default function FormFieldPreview({ type }: FormFieldPreviewProps) {
           <SelectField
             id="testSelect"
             control={ctrl}
-            label="Account Role"
+            label="Account Role & Permissions"
             placeholder="Select a role"
             options={[
-              { key: "admin", value: "Administrator" },
-              { key: "editor", value: "Content Editor" },
-              { key: "viewer", value: "Standard Viewer" },
+              { key: "admin", value: "Administrator (Full Root Access)" },
+              { key: "editor", value: "Content Editor (Publish & Draft)" },
+              { key: "viewer", value: "Standard Viewer (Read Only)" },
             ]}
+            disabled={isDisabled}
           />
         );
       case "select-api-field":
@@ -108,9 +121,10 @@ export default function FormFieldPreview({ type }: FormFieldPreviewProps) {
                 { key: "usr_2", value: "Dr. James Wilson (Oncology)" },
                 { key: "usr_3", value: "Dr. Lisa Cuddy (Administration)" },
               ]}
+              disabled={isDisabled}
             />
-            <p className="text-[11px] text-zinc-400">
-              SelectApiField automatically debounces input queries and fetches from your endpoint.
+            <p className="text-[11px] text-[#785c4b]">
+              Automatically debounces search keystrokes and updates options asynchronously.
             </p>
           </div>
         );
@@ -119,8 +133,9 @@ export default function FormFieldPreview({ type }: FormFieldPreviewProps) {
           <DateField
             id="testDate"
             control={ctrl}
-            label="Scheduled Release Date"
+            label="Effective Launch Date"
             placeholder="Select date"
+            disabled={isDisabled}
           />
         );
       case "date-range-field":
@@ -128,7 +143,8 @@ export default function FormFieldPreview({ type }: FormFieldPreviewProps) {
           <DateRangeField
             id="testDateRange"
             control={ctrl}
-            label="Subscription Period"
+            label="Subscription Period (Start & End)"
+            disabled={isDisabled}
           />
         );
       case "time-picker-field":
@@ -136,7 +152,8 @@ export default function FormFieldPreview({ type }: FormFieldPreviewProps) {
           <TimePickerField
             id="testTime"
             control={ctrl}
-            label="Deployment Maintenance Window"
+            label="Daily Maintenance Window"
+            disabled={isDisabled}
           />
         );
       case "time-range-field":
@@ -144,7 +161,8 @@ export default function FormFieldPreview({ type }: FormFieldPreviewProps) {
           <TimeRangeField
             id="testTimeRange"
             control={ctrl}
-            label="Operating Business Hours"
+            label="Operating Shift Hours"
+            disabled={isDisabled}
           />
         );
       case "number-field":
@@ -152,9 +170,11 @@ export default function FormFieldPreview({ type }: FormFieldPreviewProps) {
           <NumberField
             id="testNumber"
             control={ctrl}
-            label="Allocated Server Capacity"
+            label="Allocation Count"
+            placeholder="Enter number"
             min={1}
-            max={128}
+            max={100}
+            disabled={isDisabled}
           />
         );
       case "text-area-field":
@@ -162,9 +182,10 @@ export default function FormFieldPreview({ type }: FormFieldPreviewProps) {
           <TextAreaField
             id="testTextArea"
             control={ctrl}
-            label="Service Description"
-            placeholder="Provide architectural details..."
+            label="System Audit Notes"
+            placeholder="Enter multi-line notes..."
             rows={4}
+            disabled={isDisabled}
           />
         );
       case "switch-field":
@@ -173,6 +194,7 @@ export default function FormFieldPreview({ type }: FormFieldPreviewProps) {
             id="testSwitch"
             control={ctrl}
             label="Enable Two-Factor Authentication"
+            disabled={isDisabled}
           />
         );
       case "checkbox-field":
@@ -180,7 +202,8 @@ export default function FormFieldPreview({ type }: FormFieldPreviewProps) {
           <CheckboxField
             id="testCheckbox"
             control={ctrl}
-            label="I accept the Enterprise Service Level Agreement"
+            label="I accept terms and enterprise SLA policies"
+            disabled={isDisabled}
           />
         );
       case "radio-field":
@@ -188,11 +211,13 @@ export default function FormFieldPreview({ type }: FormFieldPreviewProps) {
           <RadioField
             id="testRadio"
             control={ctrl}
-            label="Subscription Billing Cycle"
+            label="Notification Frequency"
             options={[
-              { key: "monthly", value: "Billed Monthly ($49/mo)" },
-              { key: "annual", value: "Billed Annually ($39/mo - Save 20%)" },
+              { key: "a", value: "Instant Push" },
+              { key: "b", value: "Daily Digest" },
+              { key: "c", value: "Weekly Summary" },
             ]}
+            disabled={isDisabled}
           />
         );
       case "slider-field":
@@ -200,7 +225,7 @@ export default function FormFieldPreview({ type }: FormFieldPreviewProps) {
           <SliderField
             id="testSlider"
             control={ctrl}
-            label="Storage Allocation Threshold (%)"
+            disabled={isDisabled}
           />
         );
       case "rating-field":
@@ -208,7 +233,8 @@ export default function FormFieldPreview({ type }: FormFieldPreviewProps) {
           <RatingField
             id="testRating"
             control={ctrl}
-            label="User Satisfaction Rating"
+            label="Customer Satisfaction Score"
+            disabled={isDisabled}
           />
         );
       case "color-picker-field":
@@ -217,6 +243,7 @@ export default function FormFieldPreview({ type }: FormFieldPreviewProps) {
             id="testColor"
             control={ctrl}
             label="Brand Accent Color"
+            disabled={isDisabled}
           />
         );
       case "country-field":
@@ -224,7 +251,8 @@ export default function FormFieldPreview({ type }: FormFieldPreviewProps) {
           <CountryField
             id="testCountry"
             control={ctrl}
-            label="Country of Incorporation"
+            label="Jurisdiction / Country"
+            disabled={isDisabled}
           />
         );
       case "phone-field":
@@ -233,6 +261,7 @@ export default function FormFieldPreview({ type }: FormFieldPreviewProps) {
             id="testPhone"
             control={ctrl}
             label="Primary Contact Phone"
+            disabled={isDisabled}
           />
         );
       case "otp-field":
@@ -241,6 +270,7 @@ export default function FormFieldPreview({ type }: FormFieldPreviewProps) {
             id="testOtp"
             control={ctrl}
             length={6}
+            disabled={isDisabled}
           />
         );
       case "upload-field":
@@ -248,23 +278,39 @@ export default function FormFieldPreview({ type }: FormFieldPreviewProps) {
           <UploadField
             id="testUpload"
             control={ctrl}
-            title="Upload Files"
-            subtitle="Drop documents or click to choose"
+            title="Upload Legal Documentation"
+            subtitle="Drop files or click to browse S3 bucket"
+            disabled={isDisabled}
           />
         );
       case "button-field":
         return (
-          <div className="flex gap-3">
-            <ButtonField type="primary">Primary Action</ButtonField>
-            <ButtonField type="default">Secondary Action</ButtonField>
-            <ButtonField type="primary" danger>Destructive Action</ButtonField>
+          <div className="flex flex-wrap gap-3 items-center">
+            <ButtonField
+              type="primary"
+              loading={btnLoading}
+              onClick={async () => {
+                setBtnLoading(true);
+                await new Promise((r) => setTimeout(r, 1000));
+                setBtnLoading(false);
+                message.success("Primary button operation complete!");
+              }}
+            >
+              Primary Action
+            </ButtonField>
+            <ButtonField type="default" onClick={() => message.info("Default button clicked")}>
+              Secondary Action
+            </ButtonField>
+            <ButtonField type="primary" danger onClick={() => message.error("Destructive button clicked")}>
+              Destructive Action
+            </ButtonField>
           </div>
         );
       case "loading-spinner":
         return (
           <div className="flex flex-col items-center justify-center p-8 space-y-3">
-            <LoadingSpinner size="large" />
-            <span className="text-xs text-zinc-500">Loading dataset...</span>
+            <LoadingSpinner size={exampleIndex === 1 ? "large" : "default"} />
+            <span className="text-xs text-[#785c4b] font-medium">Loading remote dataset...</span>
           </div>
         );
       case "error-api":
@@ -272,7 +318,7 @@ export default function FormFieldPreview({ type }: FormFieldPreviewProps) {
           <ErrorApi
             title="Service Cluster Unavailable"
             message="Failed to connect to backend cluster at port 8080. Connection timed out after 5000ms."
-            onRetry={() => alert("Retrying request...")}
+            onRetry={() => message.loading({ content: "Re-establishing connection...", duration: 0.8 })}
           />
         );
       default:
@@ -282,6 +328,7 @@ export default function FormFieldPreview({ type }: FormFieldPreviewProps) {
             control={ctrl}
             label="Dynamic Field"
             placeholder="Enter value"
+            disabled={isDisabled}
           />
         );
     }
@@ -289,15 +336,60 @@ export default function FormFieldPreview({ type }: FormFieldPreviewProps) {
 
   return (
     <div className="w-full space-y-4">
+      {/* Controls Bar for Example 2 & 3 */}
+      {exampleIndex > 0 && type !== "button-field" && type !== "loading-spinner" && type !== "error-api" && (
+        <div className="flex flex-wrap items-center justify-between gap-2 p-2.5 bg-[#f5eee3] rounded-xl border border-[#ede5d8] text-xs">
+          <div className="flex items-center gap-2">
+            <span className="font-bold text-[#362117]">Toggle Props:</span>
+            <div className="flex items-center gap-1.5">
+              <span className="text-[#5c4738]">disabled:</span>
+              <Switch
+                size="small"
+                checked={isDisabled}
+                onChange={(c) => setIsDisabled(c)}
+                style={{ backgroundColor: isDisabled ? "#e05d44" : undefined }}
+              />
+            </div>
+          </div>
+          <span className="text-[11px] text-[#785c4b]">
+            {isDisabled ? "Input is disabled (read-only)" : "Input is active & editable"}
+          </span>
+        </div>
+      )}
+
       <FormProvider {...methods}>
-        <div className="w-full py-2">
+        <div className="w-full py-1">
           {renderField()}
         </div>
       </FormProvider>
 
+      {/* Live Form Submission Trigger for Example 2 */}
+      {exampleIndex === 2 && (
+        <div className="pt-2 flex flex-col gap-2">
+          <button
+            type="button"
+            onClick={methods.handleSubmit((data) => {
+              setSubmitOutput(data);
+              message.success("Field payload validated!");
+            })}
+            className="w-full text-xs font-bold py-2 px-4 rounded-xl bg-[#362117] hover:bg-[#261710] text-white shadow-xs transition-colors cursor-pointer"
+          >
+            Submit & Inspect Validated Value
+          </button>
+
+          {submitOutput && (
+            <div className="p-3 bg-[#edf7ee] border border-[#c8e6c9] rounded-xl text-xs text-[#2e7d32] font-mono">
+              <span className="font-bold">Output: </span>
+              {JSON.stringify(submitOutput)}
+            </div>
+          )}
+        </div>
+      )}
+
+      {/* State inspector */}
       <div className="text-xs text-[#785c4b] bg-[#f5eee3] p-3 rounded-xl border border-[#ede5d8] flex justify-between items-center overflow-x-auto shadow-xs">
-        <span className="shrink-0 mr-2 font-semibold">React Hook Form Live State:</span>
-        <span className="font-mono text-[#362117] font-bold truncate">
+        <span className="shrink-0 mr-2 font-bold text-[#362117]">React Hook Form Live State:</span>
+        <span className="font-mono text-[#c4432b] font-bold truncate">
           {JSON.stringify(formValues)}
         </span>
       </div>
