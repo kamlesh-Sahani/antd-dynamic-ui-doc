@@ -282,11 +282,17 @@ export default function UtilsPage() {
                           </div>
                         )}
 
-                        <div className="space-y-1">
+                        <div className="space-y-3">
                           <h4 className="text-xs font-bold text-zinc-800 dark:text-zinc-200">
-                            TypeScript Usage Example
+                            Practical Code Examples
                           </h4>
-                          <CodeBlock code={util.example} language="typescript" />
+                          <CodeBlock code={util.example} language="typescript" filename={`${util.name}.basic.ts`} />
+                          {util.secondaryExample && (
+                            <CodeBlock code={util.secondaryExample} language="typescript" filename={`${util.name}.advanced.ts`} />
+                          )}
+                          {util.advancedExample && (
+                            <CodeBlock code={util.advancedExample} language="typescript" filename={`${util.name}.integration.tsx`} />
+                          )}
                         </div>
                       </td>
                     </tr>

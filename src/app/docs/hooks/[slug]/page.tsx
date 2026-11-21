@@ -4,6 +4,7 @@ import type { Metadata } from "next";
 import { HOOKS_DATA } from "@/data/hooksData";
 import PropsTable from "@/components/PropsTable";
 import CodeBlock from "@/components/CodeBlock";
+import MultiCodeExamples from "@/components/MultiCodeExamples";
 import SchemaViewer from "@/components/SchemaViewer";
 import TroubleshootCard from "@/components/TroubleshootCard";
 import { CheckCircle2, Cpu } from "lucide-react";
@@ -87,12 +88,19 @@ export default async function HookDetailPage({ params }: HookPageProps) {
         )}
       </div>
 
-      {/* Code Example */}
+      {/* Code Examples */}
       <div className="space-y-2">
         <h2 className="text-lg font-bold text-zinc-900 dark:text-zinc-100">
-          Usage Example
+          Practical Hook Examples & Workflows
         </h2>
-        <CodeBlock code={item.code} language="tsx" filename={`${item.title}.example.tsx`} />
+        <p className="text-xs text-zinc-500">
+          Explore quickstart usage, full parameter integration, and production data workflows.
+        </p>
+        <MultiCodeExamples
+          componentTitle={item.title}
+          defaultCode={item.code}
+          examples={(item as any).examples}
+        />
       </div>
 
       {/* Parameters Table */}

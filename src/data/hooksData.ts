@@ -1,5 +1,6 @@
 import { PropItem } from "@/components/PropsTable";
 import { TroubleshootingItem } from "@/components/TroubleshootCard";
+import { CodeExampleItem } from "@/components/MultiCodeExamples";
 
 export interface HookDoc {
   slug: string;
@@ -10,6 +11,7 @@ export interface HookDoc {
   params: PropItem[];
   returns: PropItem[];
   code: string;
+  examples: CodeExampleItem[];
   schema?: object | string;
   troubleshooting?: TroubleshootingItem[];
 }
@@ -18,15 +20,13 @@ export const HOOKS_DATA: Record<string, HookDoc> = {
   "use-fetch": {
     slug: "use-fetch",
     title: "useFetch",
-    summary:
-      "Enterprise HTTP data-fetching hook with AbortController cancellation, retry capabilities, and automatic JSON extraction.",
-    description:
-      "useFetch is a zero-dependency async data fetching hook built specifically for antd-dynamic-ui components. It tracks loading and error states, automatically cancels previous in-flight requests when parameters or URLs change via AbortController, and provides a stable refetch() callback for manual data refreshing.",
+    summary: "Zero-dependency HTTP data-fetching hook with AbortController cancellation, retry capabilities, and automatic JSON extraction.",
+    description: "useFetch is built specifically for antd-dynamic-ui components. It tracks loading and error states, automatically cancels in-flight requests when query parameters or URLs change via AbortController, and provides a stable refetch() callback for manual data refreshing.",
     features: [
-      "Built-in AbortController request cancellation to eliminate race conditions",
+      "Built-in AbortController request cancellation prevents out-of-order responses and race conditions",
       "Automatic payload error detection (detects { success: false, message })",
-      "Manual execution mode (manual: true) for submit buttons and search triggers",
-      "Configurable onSuccess callback with guaranteed latest ref closure",
+      "Manual execution mode (dontCall: true) for submit buttons and search triggers",
+      "Configurable onSuccess callback with guaranteed latest closure",
       "Zero re-render memoization for request options and body payloads",
     ],
     params: [
@@ -34,7 +34,7 @@ export const HOOKS_DATA: Record<string, HookDoc> = {
       { name: "url", type: "string", required: true, description: "Endpoint URL to query." },
       { name: "options", type: "VelocityConfig", description: "Query params, headers, timeout, and custom request configs." },
       { name: "body", type: "any", description: "Request payload body for POST / PUT requests." },
-      { name: "manual", type: "boolean", default: "false", description: "If true, does not fetch automatically on mount." },
+      { name: "dontCall", type: "boolean", default: "false", description: "If true, does not fetch automatically on mount (manual execution mode)." },
       { name: "onSuccess", type: "(data: R) => void", description: "Callback triggered upon successful response." },
     ],
     returns: [
@@ -57,13 +57,104 @@ export default function UsersList() {
   if (loading) return <Spin tip="Fetching users..." />;
   if (error) return <Alert type="error" message={error} action={<button onClick={() => refetch()}>Retry</button>} />;
 
+  return <Table dataSource={(data as any)?.data?.rows || []} rowKey="id" />;
+}`,
+    examples: [
+      {
+        title: "Auto-Fetch on Component Mount",
+        description: "Standard declarative data fetch on mount with loading and error boundaries.",
+        language: "tsx",
+        filename: "useFetch.mount.tsx",
+        code: `import React from "react";
+import { useFetch, api, LoadingSpinner, ErrorApi } from "antd-dynamic-ui";
+import { Card } from "antd";
+
+export default function AnalyticsCard() {
+  const { data, loading, error, refetch } = useFetch({
+    client: api.get,
+    url: "/api/v1/dashboard/metrics",
+    options: { params: { range: "30d" } },
+  });
+
+  if (loading) return <LoadingSpinner size="medium" tip="Loading KPIs..." />;
+  if (error) return <ErrorApi title="Metrics Error" message={error} onRetry={refetch} />;
+
   return (
-    <div>
-      <h3 className="font-bold mb-3">Active Users</h3>
-      <Table dataSource={data?.data?.rows || []} rowKey="id" />
+    <Card title="Monthly Performance">
+      <div className="text-2xl font-bold font-mono">
+        \${(data as any)?.revenue?.toLocaleString() || "0.00"}
+      </div>
+    </Card>
+  );
+}`
+      },
+      {
+        title: "Manual Trigger on Button Click",
+        description: "Using dontCall: true to execute an on-demand report download.",
+        language: "tsx",
+        filename: "useFetch.manual.tsx",
+        code: `import React from "react";
+import { useFetch, api, ButtonField } from "antd-dynamic-ui";
+import { message } from "antd";
+
+export default function GenerateReportButton() {
+  const { loading, refetch } = useFetch({
+    client: api.post,
+    url: "/api/v1/reports/generate",
+    dontCall: true, // Do not fetch on mount
+    onSuccess: (res: any) => {
+      message.success(\`Report \${res.reportId} generated successfully!\`);
+    },
+  });
+
+  return (
+    <ButtonField
+      type="primary"
+      loading={loading}
+      onClick={() => refetch({ body: { format: "pdf", department: "audit" } })}
+    >
+      Generate Audit PDF
+    </ButtonField>
+  );
+}`
+      },
+      {
+        title: "Search Query with Cancellation",
+        description: "Re-querying an endpoint dynamically when user input changes, canceling in-flight calls.",
+        language: "tsx",
+        filename: "useFetch.search.tsx",
+        code: `import React, { useState } from "react";
+import { useFetch, api } from "antd-dynamic-ui";
+import { Input, List } from "antd";
+
+export default function DebouncedLiveSearch() {
+  const [searchTerm, setSearchTerm] = useState("");
+
+  const { data, loading } = useFetch({
+    client: api.get,
+    url: "/api/v1/customers/autocomplete",
+    options: { params: { query: searchTerm } },
+    dontCall: !searchTerm, // Skip when input is empty
+  });
+
+  return (
+    <div className="space-y-3">
+      <Input
+        value={searchTerm}
+        onChange={(e) => setSearchTerm(e.target.value)}
+        placeholder="Type to search customers in real-time..."
+        allowClear
+      />
+      <List
+        loading={loading}
+        dataSource={(data as any)?.customers || []}
+        renderItem={(item: any) => <List.Item>{item.name} - {item.email}</List.Item>}
+      />
     </div>
   );
-}`,
+}`
+      }
+    ],
     schema: {
       success: true,
       message: "Fetched successfully",
@@ -76,175 +167,282 @@ export default function UsersList() {
       {
         issue: "Infinite loop re-fetching on every component render",
         cause: "Passing an inline literal object to 'options' without useMemo (e.g. options: { params: { id } }).",
-        solution: "useFetch automatically stabilizes options using JSON stringification, but if using custom non-serializable objects or functions, memoize them with useMemo.",
-        incorrectSnippet: `// ❌ INCORRECT: Non-serializable callback created every render
-const { data } = useFetch({
-  client: api.get,
-  url: "/api/users",
-  options: { transformResponse: (res) => res.data }
-});`,
-        correctSnippet: `// ✅ CORRECT: Plain JSON serializable options
-const { data } = useFetch({
-  client: api.get,
-  url: "/api/users",
-  options: { params: { active: true } }
-});`,
-      },
-    ],
+        solution: "useFetch stabilizes options automatically using JSON serialization, but if passing non-serializable objects or functions, memoize them with useMemo.",
+        incorrectSnippet: `// ❌ Non-serializable callback created every render
+const { data } = useFetch({ client: api.get, url: "/api", options: { transform: () => {} } });`,
+        correctSnippet: `// ✅ Standard serializable params or memoized options
+const { data } = useFetch({ client: api.get, url: "/api", options: { params: { id } } });`
+      }
+    ]
   },
 
   "use-grid-filters": {
     slug: "use-grid-filters",
     title: "useGridFilters",
-    summary:
-      "Granular Zustand-powered filter store hook that synchronizes table search, column filters, and header inputs with zero window event listeners.",
-    description:
-      "useGridFilters replaces slow window event listeners and un-scoped React context with a high-performance Zustand store. It allows components anywhere in the tree (DynamicHeader, DynamicTable, DynamicCard) to share filter and search states by subscribing only to a specific key, preventing unnecessary re-renders across other tables.",
+    summary: "Zustand-powered synchronized grid filter state hook across DynamicHeader, DynamicTable, and FilterDrawer.",
+    description: "useGridFilters coordinates multi-component filtering state. When a user types in DynamicHeader, changes column visibility in ColumnDrawer, or applies dates in FilterDrawer, useGridFilters ensures every component reacts without prop drilling.",
     features: [
-      "Granular Zustand store: re-renders only components subscribed to the identical filterKey",
-      "Seamless synchronization between DynamicHeader search bar and DynamicTable",
-      "Partial state updater: setFilters only updates passed keys, preserving existing filters",
-      "Zero memory leaks: automatic garbage collection when table unmounts",
+      "Zero prop-drilling: shared global Zustand state indexed by filterKey",
+      "Persistent state: remembers search terms, page index, and active sort columns",
+      "Type-safe getter and setter tuple: [filters, setFilters] = useGridFilters(key)",
     ],
     params: [
-      { name: "key", type: "string", required: true, description: "Unique string key identifying the table or page filter memory." },
-      { name: "defaultValue", type: "T", default: "{}", description: "Initial fallback filters if store is empty." },
+      { name: "filterKey", type: "string", required: true, description: "Unique grid namespace identifier." },
     ],
     returns: [
-      { name: "filters", type: "T", description: "Current active filter state object." },
-      { name: "setFilters", type: "(partial: Partial<T>) => void", description: "Merges new filter values into the current key store." },
+      { name: "filters", type: "T", description: "Current filter state object (search, page, limit, sort, columns)." },
+      { name: "setFilters", type: "(updater: Partial<T> | ((prev: T) => T)) => void", description: "State setter accepting partial objects or updater functions." },
     ],
-    code: `import React from "react";
-import { useGridFilters } from "antd-dynamic-ui";
-import { Input, Button } from "antd";
+    code: `import { useGridFilters } from "antd-dynamic-ui";
 
-export default function TableSearchSync() {
-  const [filters, setFilters] = useGridFilters("orders-grid", { tableSearch: "" });
+export function CustomFilterToggle() {
+  const [filters, setFilters] = useGridFilters("users_grid");
+  return (
+    <button onClick={() => setFilters({ status: "active" })}>
+      Show Active Only
+    </button>
+  );
+}`,
+    examples: [
+      {
+        title: "Connecting Custom Filter Chips",
+        description: "Reading active search state and toggling status filters.",
+        language: "tsx",
+        filename: "useGridFilters.chips.tsx",
+        code: `import React from "react";
+import { useGridFilters } from "antd-dynamic-ui";
+import { Tag } from "antd";
+
+export default function StatusFilterPills() {
+  const [filters, setFilters] = useGridFilters<any>("orders_grid");
+
+  const activeStatus = filters?.status || "ALL";
 
   return (
     <div className="flex gap-2">
-      <Input
-        placeholder="Search orders..."
-        value={filters.tableSearch || ""}
-        onChange={(e) => setFilters({ tableSearch: e.target.value })}
-      />
-      <Button onClick={() => setFilters({ tableSearch: "" })}>Reset</Button>
+      {["ALL", "PENDING", "SHIPPED", "DELIVERED"].map((st) => (
+        <Tag.CheckableTag
+          key={st}
+          checked={activeStatus === st}
+          onChange={() => setFilters({ status: st === "ALL" ? undefined : st, page: 1 })}
+        >
+          {st}
+        </Tag.CheckableTag>
+      ))}
     </div>
   );
-}`,
+}`
+      },
+      {
+        title: "Resetting All Grid Filters",
+        description: "Programmatically resetting search, pagination, and sort order.",
+        language: "tsx",
+        filename: "useGridFilters.reset.tsx",
+        code: `import React from "react";
+import { useGridFilters, ButtonField } from "antd-dynamic-ui";
+
+export default function ResetFiltersButton() {
+  const [, setFilters] = useGridFilters<any>("accounts_grid");
+
+  const handleReset = () => {
+    setFilters({
+      search: "",
+      page: 1,
+      sortBy: "createdAt",
+      order: "desc",
+      status: undefined,
+    });
+  };
+
+  return (
+    <ButtonField onClick={handleReset}>
+      Reset All Filters
+    </ButtonField>
+  );
+}`
+      }
+    ]
   },
 
   "use-api-options": {
     slug: "use-api-options",
     title: "useApiOptions",
-    summary:
-      "Debounced async options loader for remote Select and Cascader fields with memory caching.",
-    description:
-      "useApiOptions powers asynchronous select dropdowns. It debounces keystrokes (default 300ms), executes remote queries, caches responses by search term to prevent duplicate API calls, and automatically converts results to Ant Design's { label, value } format.",
+    summary: "Asynchronous dropdown options loader with debounced search, pagination, and data formatting.",
+    description: "useApiOptions powers SelectApiField and remote autocompletes. It handles debounced search queries, infinite scroll loading, caching, and mapping backend keys to { key, value } options.",
     features: [
-      "Built-in 300ms debounce buffer on user keystrokes",
-      "Internal query cache to eliminate redundant network round-trips",
-      "Custom labelKey and valueKey mappings for non-standard backend schemas",
+      "Debounced search queries (default: 400ms)",
+      "Infinite scroll pagination (loadingMore state)",
+      "Custom transformation via onFormatData callback",
     ],
     params: [
-      { name: "apiUrl", type: "string", required: true, description: "Remote search endpoint URL." },
-      { name: "queryParam", type: "string", default: '"search"', description: "Query parameter name sent to API." },
-      { name: "debounceMs", type: "number", default: "300", description: "Debounce delay in milliseconds." },
+      { name: "apiUrl", type: "string", description: "Remote endpoint to query." },
+      { name: "debounceMs", type: "number", default: "400", description: "Search debounce delay in milliseconds." },
+      { name: "labelPath", type: "string", default: '"value"', description: "JSON key for option label." },
+      { name: "valuePath", type: "string", default: '"key"', description: "JSON key for option value." },
     ],
     returns: [
-      { name: "options", type: "FieldOption[]", description: "Array of mapped { key, value } options." },
-      { name: "loading", type: "boolean", description: "Whether remote search query is executing." },
-      { name: "onSearch", type: "(query: string) => void", description: "Search input change handler." },
+      { name: "options", type: "OptionType[]", description: "Formatted array of { key, value } options." },
+      { name: "loading", type: "boolean", description: "Initial query loading state." },
+      { name: "loadingMore", type: "boolean", description: "Loading state during infinite scroll." },
+      { name: "onSearch", type: "(text: string) => void", description: "Search callback to trigger debounced query." },
     ],
-    code: `import React from "react";
+    code: `import { useApiOptions } from "antd-dynamic-ui";
+import { Select } from "antd";
+
+export function CustomRemoteDropdown() {
+  const { options, loading, onSearch } = useApiOptions({
+    apiUrl: "/api/v1/skills",
+    debounceMs: 300,
+  });
+
+  return <Select showSearch onSearch={onSearch} loading={loading} options={options} />;
+}`,
+    examples: [
+      {
+        title: "Standalone Remote Select with useApiOptions",
+        description: "Hook integration with Ant Design's standard Select component.",
+        language: "tsx",
+        filename: "useApiOptions.select.tsx",
+        code: `import React from "react";
 import { useApiOptions } from "antd-dynamic-ui";
 import { Select } from "antd";
 
-export default function RemoteSelect() {
-  const { options, loading, onSearch } = useApiOptions("/api/v1/companies/search");
+export default function DepartmentSelect() {
+  const { options, loading, onSearch } = useApiOptions({
+    apiUrl: "/api/v1/departments",
+    labelPath: "deptName",
+    valuePath: "deptId",
+    debounceMs: 300,
+  });
 
   return (
     <Select
       showSearch
+      placeholder="Select department"
       loading={loading}
       onSearch={onSearch}
-      filterOption={false}
       options={options.map((o) => ({ label: o.value, value: o.key }))}
+      className="w-72"
     />
   );
-}`,
+}`
+      }
+    ]
   },
 
   "use-safe-control": {
     slug: "use-safe-control",
     title: "useSafeControl",
-    summary:
-      "Type-safe React Hook Form controller wrapper providing safe fallback defaults for undefined values.",
-    description:
-      "useSafeControl wraps React Hook Form's useController to eliminate controlled vs uncontrolled component warnings in React. If a field's form state is undefined or null, it injects a safe fallback default (such as empty string, empty array, or false).",
+    summary: "Smart control resolver that retrieves React Hook Form Control from props or falls back to FormContext.",
+    description: "useSafeControl allows building modular form field components. If a developer explicitly passes control={control}, it uses it; otherwise, it grabs control from the nearest FormProvider context without throwing runtime errors.",
     features: [
-      "Prevents React warning: 'A component is changing an uncontrolled input to be controlled'",
-      "Normalizes null / undefined values to safe type-appropriate fallbacks",
-      "Extracts error message strings directly from form state",
+      "Zero crash guarantee: gracefully falls back to useFormContext()",
+      "Enables both standalone usage and parent FormProvider wrapping",
     ],
     params: [
-      { name: "name", type: "string", required: true, description: "Field name registered in React Hook Form." },
-      { name: "control", type: "Control<any>", description: "Optional control instance if not using FormProvider." },
-      { name: "defaultValue", type: "any", default: '""', description: "Safe fallback value." },
+      { name: "explicitControl", type: "Control<any>", description: "Optional control prop passed into component." },
     ],
     returns: [
-      { name: "field", type: "ControllerRenderProps", description: "Field binding props (value, onChange, onBlur, ref)." },
-      { name: "error", type: "string | undefined", description: "Active validation error message." },
+      { name: "control", type: "Control<any> | undefined", description: "Resolved valid Control instance." },
     ],
-    code: `import React from "react";
+    code: `import { useSafeControl } from "antd-dynamic-ui";
+import { Controller } from "react-hook-form";
+
+export function CustomInput({ control: explicitControl, name }: any) {
+  const control = useSafeControl(explicitControl);
+  return <Controller name={name} control={control} render={({ field }) => <input {...field} />} />;
+}`,
+    examples: [
+      {
+        title: "Creating a Modular Custom Form Field",
+        description: "Building an input that works with or without explicit control prop.",
+        language: "tsx",
+        filename: "useSafeControl.custom.tsx",
+        code: `import React from "react";
 import { useSafeControl } from "antd-dynamic-ui";
+import { Controller, Control } from "react-hook-form";
 import { Input } from "antd";
 
-export default function CustomField({ name }: { name: string }) {
-  const { field, error } = useSafeControl(name, undefined, "");
+interface CustomTagInputProps {
+  name: string;
+  label: string;
+  control?: Control<any>;
+}
+
+export default function CustomTagInput({ name, label, control: explicitControl }: CustomTagInputProps) {
+  const control = useSafeControl(explicitControl);
 
   return (
-    <div>
-      <Input {...field} status={error ? "error" : undefined} />
-      {error && <span className="text-red-500 text-xs">{error}</span>}
+    <div className="space-y-1">
+      <label className="text-xs font-semibold">{label}</label>
+      <Controller
+        name={name}
+        control={control}
+        render={({ field }) => (
+          <Input {...field} placeholder="Enter custom tags..." />
+        )}
+      />
     </div>
   );
-}`,
+}`
+      }
+    ]
   },
 
   "use-dynamic-ui": {
     slug: "use-dynamic-ui",
     title: "useDynamicUI",
-    summary:
-      "Consumer hook to access global DynamicUIContext, navigation handlers, active theme, and permissions.",
-    description:
-      "useDynamicUI gives any child component direct access to configuration provided by DynamicUIProvider, including SPA router navigation callbacks (onNavigate), active design tokens and dark mode status, and permission checking predicates.",
+    summary: "Context hook providing global application UI configuration, current user session, active module, and sidebar toggling.",
+    description: "useDynamicUI connects components to DynamicUIContext. It exposes the current user profile, active navigation module, sidebar collapse state, and audit modal handlers.",
     features: [
-      "Access global onNavigate router push abstraction (Next.js / Vite / React Router)",
-      "Access active theme tokens and dark/light mode state",
-      "Evaluate user permissions for sensitive action buttons",
+      "Access active user profile and permissions",
+      "Toggle sidebar collapsed state across layouts",
+      "Switch between active enterprise workspace modules",
     ],
     params: [],
     returns: [
-      { name: "onNavigate", type: "(url: string) => void", description: "Client-side router push function." },
-      { name: "theme", type: "DynamicUITheme", description: "Current theme configuration object." },
-      { name: "permissionChecker", type: "(perm: string) => boolean", description: "Evaluates whether user has specified permission." },
+      { name: "user", type: "any", description: "Current authenticated user profile object." },
+      { name: "collapsed", type: "boolean", description: "Sidebar collapsed state." },
+      { name: "setCollapsed", type: "(v: boolean) => void", description: "Toggle sidebar collapse state." },
+      { name: "currentModule", type: "string", description: "Active suite module key." },
+      { name: "setCurrentModule", type: "(mod: string) => void", description: "Module change setter." },
     ],
-    code: `import React from "react";
-import { useDynamicUI } from "antd-dynamic-ui";
+    code: `import { useDynamicUI } from "antd-dynamic-ui";
 
-export default function NavigationButton() {
-  const { onNavigate, theme } = useDynamicUI();
-
+export function UserBadge() {
+  const { user, collapsed, setCollapsed } = useDynamicUI();
   return (
-    <button
-      onClick={() => onNavigate("/settings")}
-      style={{ borderColor: theme?.primaryColor }}
-      className="px-4 py-2 border rounded"
-    >
-      Go to Settings ({theme?.mode} mode)
-    </button>
+    <div>
+      <span>Logged in as: {user?.name}</span>
+      <button onClick={() => setCollapsed(!collapsed)}>Toggle Sidebar</button>
+    </div>
   );
 }`,
-  },
+    examples: [
+      {
+        title: "Consuming Global User Profile in Header",
+        description: "Displaying avatar and role in application navbar.",
+        language: "tsx",
+        filename: "useDynamicUI.header.tsx",
+        code: `import React from "react";
+import { useDynamicUI } from "antd-dynamic-ui";
+import { Avatar, Tag } from "antd";
+
+export default function GlobalNavbarProfile() {
+  const { user, currentModule } = useDynamicUI();
+
+  return (
+    <div className="flex items-center gap-3">
+      <Tag color="blue">{currentModule || "Core Module"}</Tag>
+      <Avatar src={user?.avatar}>{user?.name?.charAt(0) || "U"}</Avatar>
+      <div className="text-xs">
+        <div className="font-semibold">{user?.name || "Anonymous User"}</div>
+        <div className="text-zinc-500">{user?.role || "Staff"}</div>
+      </div>
+    </div>
+  );
+}`
+      }
+    ]
+  }
 };

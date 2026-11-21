@@ -4,6 +4,7 @@ import type { Metadata } from "next";
 import { COMPONENTS_DATA } from "@/data/componentsData";
 import PropsTable from "@/components/PropsTable";
 import CodeBlock from "@/components/CodeBlock";
+import MultiCodeExamples from "@/components/MultiCodeExamples";
 import SchemaViewer from "@/components/SchemaViewer";
 import TroubleshootCard from "@/components/TroubleshootCard";
 import DynamicTablePreview from "@/components/previews/DynamicTablePreview";
@@ -160,14 +161,18 @@ export default async function ComponentDetailPage({
         <div className="space-y-1">
           <h2 className="text-xl font-bold text-zinc-900 dark:text-zinc-100 flex items-center gap-2">
             <Code2 size={18} className="text-blue-600 dark:text-blue-400" />
-            <span>Usage Code Example</span>
+            <span>Interactive Code Examples & Features</span>
           </h2>
           <p className="text-xs text-zinc-500">
-            Copy-pasteable TypeScript integration code for {item.title}.
+            Switch between practical examples below demonstrating basic setups, complete props, and declarative backend schemas.
           </p>
         </div>
 
-        <CodeBlock code={item.code} language="tsx" filename={`${item.title}.example.tsx`} />
+        <MultiCodeExamples
+          componentTitle={item.title}
+          defaultCode={item.code}
+          examples={item.examples}
+        />
       </section>
 
       {/* 4. Props & Configuration Table */}
