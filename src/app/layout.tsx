@@ -62,7 +62,10 @@ export default function RootLayout({
           }}
         />
       </head>
-      <body className="min-h-screen bg-white dark:bg-zinc-950 text-zinc-900 dark:text-zinc-100 antialiased font-sans selection:bg-blue-500 selection:text-white">
+      <body
+        suppressHydrationWarning
+        className="min-h-screen bg-white dark:bg-zinc-950 text-zinc-900 dark:text-zinc-100 antialiased font-sans selection:bg-blue-500 selection:text-white"
+      >
         <AntdRegistry>
           <AntdProvider>
             <div className="flex flex-col min-h-screen">
