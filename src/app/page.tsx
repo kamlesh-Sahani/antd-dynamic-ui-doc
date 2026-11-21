@@ -15,6 +15,8 @@ import {
   Database,
   Sliders,
   CheckCircle2,
+  Scissors,
+  PackageCheck,
 } from "lucide-react";
 
 export default function HomePage() {
@@ -40,9 +42,15 @@ export default function HomePage() {
 
       {/* Hero Section */}
       <section className="pt-20 pb-16 px-4 sm:px-6 max-w-6xl mx-auto text-center space-y-8">
-        <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full text-xs font-medium bg-blue-50 dark:bg-blue-950/60 text-blue-700 dark:text-blue-300 border border-blue-200/80 dark:border-blue-900 shadow-xs">
-          <Sparkles size={14} className="text-blue-600 dark:text-blue-400" />
-          <span>v1.0.0 Now Available with React 19 & Next.js 15 Support</span>
+        <div className="flex flex-wrap items-center justify-center gap-2">
+          <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full text-xs font-medium bg-blue-50 dark:bg-blue-950/60 text-blue-700 dark:text-blue-300 border border-blue-200/80 dark:border-blue-900 shadow-xs">
+            <Sparkles size={14} className="text-blue-600 dark:text-blue-400" />
+            <span>v1.0.0 Now Available with React 19 & Next.js 15</span>
+          </div>
+          <div className="inline-flex items-center gap-1.5 px-3.5 py-1.5 rounded-full text-xs font-medium bg-emerald-50 dark:bg-emerald-950/60 text-emerald-700 dark:text-emerald-300 border border-emerald-200/80 dark:border-emerald-900 shadow-xs">
+            <Scissors size={13} className="text-emerald-600 dark:text-emerald-400" />
+            <span>100% Tree-Shakeable ESM</span>
+          </div>
         </div>
 
         <h1 className="text-4xl sm:text-6xl font-extrabold tracking-tight text-zinc-900 dark:text-zinc-50 max-w-4xl mx-auto leading-[1.15]">
@@ -54,8 +62,8 @@ export default function HomePage() {
 
         <p className="text-lg sm:text-xl text-zinc-600 dark:text-zinc-300 max-w-2xl mx-auto leading-relaxed">
           The ultimate Ant Design accelerator. Render 60fps virtualized data tables,
-          compile complex multi-step forms with automatic Zod validation, and eliminate
-          boilerplate code forever.
+          compile complex multi-step forms with automatic Zod validation, and eliminate bundle bloat
+          with modular, 100% tree-shakeable ES modules.
         </p>
 
         {/* CTA Buttons */}
@@ -158,6 +166,20 @@ export default function HomePage() {
 
           {/* Feature 2 */}
           <div className="rounded-2xl border border-zinc-200 dark:border-zinc-800 bg-white dark:bg-zinc-900/60 p-6 space-y-3 shadow-xs hover:border-blue-500/50 transition-all">
+            <div className="w-10 h-10 rounded-xl bg-emerald-50 dark:bg-emerald-950/60 flex items-center justify-center text-emerald-600 dark:text-emerald-400">
+              <Scissors size={20} />
+            </div>
+            <h3 className="text-base font-semibold text-zinc-900 dark:text-zinc-100">
+              Zero-Bloat Tree-Shaking
+            </h3>
+            <p className="text-xs sm:text-sm text-zinc-600 dark:text-zinc-400 leading-relaxed">
+              Every component, hook, and utility is independently chunked into modular ES exports.
+              Importing a single field like <code className="text-xs">InputField</code> or a hook like <code className="text-xs">useFetch</code> never pulls the rest of the library into your client bundle.
+            </p>
+          </div>
+
+          {/* Feature 3 */}
+          <div className="rounded-2xl border border-zinc-200 dark:border-zinc-800 bg-white dark:bg-zinc-900/60 p-6 space-y-3 shadow-xs hover:border-blue-500/50 transition-all">
             <div className="w-10 h-10 rounded-xl bg-indigo-50 dark:bg-indigo-950/60 flex items-center justify-center text-indigo-600 dark:text-indigo-400">
               <ShieldCheck size={20} />
             </div>
@@ -170,7 +192,7 @@ export default function HomePage() {
             </p>
           </div>
 
-          {/* Feature 3 */}
+          {/* Feature 4 */}
           <div className="rounded-2xl border border-zinc-200 dark:border-zinc-800 bg-white dark:bg-zinc-900/60 p-6 space-y-3 shadow-xs hover:border-blue-500/50 transition-all">
             <div className="w-10 h-10 rounded-xl bg-sky-50 dark:bg-sky-950/60 flex items-center justify-center text-sky-600 dark:text-sky-400">
               <Layers size={20} />
@@ -184,9 +206,9 @@ export default function HomePage() {
             </p>
           </div>
 
-          {/* Feature 4 */}
+          {/* Feature 5 */}
           <div className="rounded-2xl border border-zinc-200 dark:border-zinc-800 bg-white dark:bg-zinc-900/60 p-6 space-y-3 shadow-xs hover:border-blue-500/50 transition-all">
-            <div className="w-10 h-10 rounded-xl bg-emerald-50 dark:bg-emerald-950/60 flex items-center justify-center text-emerald-600 dark:text-emerald-400">
+            <div className="w-10 h-10 rounded-xl bg-purple-50 dark:bg-purple-950/60 flex items-center justify-center text-purple-600 dark:text-purple-400">
               <Cpu size={20} />
             </div>
             <h3 className="text-base font-semibold text-zinc-900 dark:text-zinc-100">
@@ -198,7 +220,7 @@ export default function HomePage() {
             </p>
           </div>
 
-          {/* Feature 5 */}
+          {/* Feature 6 */}
           <div className="rounded-2xl border border-zinc-200 dark:border-zinc-800 bg-white dark:bg-zinc-900/60 p-6 space-y-3 shadow-xs hover:border-blue-500/50 transition-all">
             <div className="w-10 h-10 rounded-xl bg-amber-50 dark:bg-amber-950/60 flex items-center justify-center text-amber-600 dark:text-amber-400">
               <Database size={20} />
@@ -211,20 +233,6 @@ export default function HomePage() {
               <code className="text-xs">useGridFilters</code> with Zustand sync, and <code className="text-xs">useApiOptions</code> with debounce.
             </p>
           </div>
-
-          {/* Feature 6 */}
-          <div className="rounded-2xl border border-zinc-200 dark:border-zinc-800 bg-white dark:bg-zinc-900/60 p-6 space-y-3 shadow-xs hover:border-blue-500/50 transition-all">
-            <div className="w-10 h-10 rounded-xl bg-purple-50 dark:bg-purple-950/60 flex items-center justify-center text-purple-600 dark:text-purple-400">
-              <Sliders size={20} />
-            </div>
-            <h3 className="text-base font-semibold text-zinc-900 dark:text-zinc-100">
-              Response Mismatch Engine
-            </h3>
-            <p className="text-xs sm:text-sm text-zinc-600 dark:text-zinc-400 leading-relaxed">
-              Every component page provides exact expected backend JSON schemas alongside
-              a dedicated troubleshooting matrix showing common payload mistakes and fixes.
-            </p>
-          </div>
         </div>
       </section>
 
@@ -235,22 +243,26 @@ export default function HomePage() {
             <CheckCircle2 className="text-emerald-500" size={20} />
             Production-Ready Architecture Benchmark
           </h3>
-          <div className="grid grid-cols-2 md:grid-cols-4 gap-4 text-center">
+          <div className="grid grid-cols-2 md:grid-cols-5 gap-4 text-center">
             <div className="p-4 rounded-xl bg-white dark:bg-zinc-900 border border-zinc-200/80 dark:border-zinc-800">
               <div className="text-2xl font-bold text-blue-600 dark:text-blue-400">60 FPS</div>
               <div className="text-xs text-zinc-500 mt-1">Virtual Scrolling</div>
+            </div>
+            <div className="p-4 rounded-xl bg-white dark:bg-zinc-900 border border-zinc-200/80 dark:border-zinc-800">
+              <div className="text-2xl font-bold text-emerald-600 dark:text-emerald-400">100%</div>
+              <div className="text-xs text-zinc-500 mt-1">Tree-Shakeable ESM</div>
             </div>
             <div className="p-4 rounded-xl bg-white dark:bg-zinc-900 border border-zinc-200/80 dark:border-zinc-800">
               <div className="text-2xl font-bold text-indigo-600 dark:text-indigo-400">22+</div>
               <div className="text-xs text-zinc-500 mt-1">Form Controls</div>
             </div>
             <div className="p-4 rounded-xl bg-white dark:bg-zinc-900 border border-zinc-200/80 dark:border-zinc-800">
-              <div className="text-2xl font-bold text-emerald-600 dark:text-emerald-400">0 ms</div>
+              <div className="text-2xl font-bold text-amber-600 dark:text-amber-400">0 ms</div>
               <div className="text-xs text-zinc-500 mt-1">Layout Thrashing</div>
             </div>
             <div className="p-4 rounded-xl bg-white dark:bg-zinc-900 border border-zinc-200/80 dark:border-zinc-800">
-              <div className="text-2xl font-bold text-purple-600 dark:text-purple-400">100%</div>
-              <div className="text-xs text-zinc-500 mt-1">TypeScript Strict</div>
+              <div className="text-2xl font-bold text-purple-600 dark:text-purple-400">Strict</div>
+              <div className="text-xs text-zinc-500 mt-1">TypeScript 5</div>
             </div>
           </div>
         </div>
