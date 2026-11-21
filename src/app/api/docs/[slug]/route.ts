@@ -8,7 +8,7 @@ export async function GET(
 ) {
   const { slug } = await params;
   const baseUrl =
-    process.env.NEXT_PUBLIC_SITE_URL || "https://antd-dynamic-ui-doc.vercel.app";
+    process.env.NEXT_PUBLIC_SITE_URL || "https://antd-dynamic-ui.vercel.app";
 
   const component = COMPONENTS_DATA[slug];
   if (component) {

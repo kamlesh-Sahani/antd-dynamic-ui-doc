@@ -6,7 +6,7 @@ import { RootJsonLd } from "@/components/JsonLd";
 import "./globals.css";
 
 const siteUrl =
-  process.env.NEXT_PUBLIC_SITE_URL || "https://antd-dynamic-ui-doc.vercel.app";
+  process.env.NEXT_PUBLIC_SITE_URL || "https://antd-dynamic-ui.vercel.app";
 
 export const metadata: Metadata = {
   metadataBase: new URL(siteUrl),

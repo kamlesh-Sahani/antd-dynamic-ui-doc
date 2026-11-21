@@ -4,7 +4,7 @@ import { UTILS_DATA } from "@/data/utilsData";
 
 export async function GET() {
   const baseUrl =
-    process.env.NEXT_PUBLIC_SITE_URL || "https://antd-dynamic-ui-doc.vercel.app";
+    process.env.NEXT_PUBLIC_SITE_URL || "https://antd-dynamic-ui.vercel.app";
 
   const coreComponents = Object.values(COMPONENTS_DATA).filter(
     (c) => c.category === "Core Dynamic Components"

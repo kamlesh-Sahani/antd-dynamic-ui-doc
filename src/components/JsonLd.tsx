@@ -3,7 +3,7 @@ import { ComponentDoc } from "@/data/componentsData";
 import { HookDoc } from "@/data/hooksData";
 
 const BASE_URL =
-  process.env.NEXT_PUBLIC_SITE_URL || "https://antd-dynamic-ui-doc.vercel.app";
+  process.env.NEXT_PUBLIC_SITE_URL || "https://antd-dynamic-ui.vercel.app";
 
 /**
  * Root Schema: SoftwareApplication + WebSite for Google Rich Results

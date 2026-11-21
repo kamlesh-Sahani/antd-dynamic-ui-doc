@@ -4,7 +4,7 @@ import { HOOKS_DATA } from "@/data/hooksData";
 
 export default function sitemap(): MetadataRoute.Sitemap {
   const baseUrl =
-    process.env.NEXT_PUBLIC_SITE_URL || "https://antd-dynamic-ui-doc.vercel.app";
+    process.env.NEXT_PUBLIC_SITE_URL || "https://antd-dynamic-ui.vercel.app";
   const now = new Date();
 
   const staticRoutes: MetadataRoute.Sitemap = [

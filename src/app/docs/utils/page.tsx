@@ -5,7 +5,7 @@ import Breadcrumbs from "@/components/Breadcrumbs";
 import { UTILS_DATA } from "@/data/utilsData";
 
 const siteUrl =
-  process.env.NEXT_PUBLIC_SITE_URL || "https://antd-dynamic-ui-doc.vercel.app";
+  process.env.NEXT_PUBLIC_SITE_URL || "https://antd-dynamic-ui.vercel.app";
 
 export const metadata: Metadata = {
   title: "Pure Utilities & Type Guards Reference (15+ Utils) - antd-dynamic-ui",
