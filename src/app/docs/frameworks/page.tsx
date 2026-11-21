@@ -1,9 +1,22 @@
 import React from "react";
+import type { Metadata } from "next";
 import CodeBlock from "@/components/CodeBlock";
+import Breadcrumbs from "@/components/Breadcrumbs";
 
-export const metadata = {
-  title: "Framework Integration (Next.js & Vite)",
-  description: "Step-by-step setup guides for Next.js 15 App Router, Pages Router, and Vite React SPAs.",
+export const metadata: Metadata = {
+  title: "Framework Integration (Next.js & Vite) - antd-dynamic-ui",
+  description:
+    "Production guides for integrating antd-dynamic-ui with Next.js 15 App Router, React 19, and Vite SPAs with zero hydration mismatch.",
+  alternates: {
+    canonical: "/docs/frameworks",
+  },
+  keywords: [
+    "nextjs 15 antd",
+    "antd app router",
+    "antd registry nextjs",
+    "vite antd setup",
+    "react 19 antd dynamic ui",
+  ],
 };
 
 export default function FrameworksPage() {
@@ -88,6 +101,13 @@ ReactDOM.createRoot(document.getElementById("root")!).render(
 
   return (
     <div className="space-y-8">
+      <Breadcrumbs
+        items={[
+          { label: "Docs", href: "/docs" },
+          { label: "Framework Integration" },
+        ]}
+      />
+
       {/* Header */}
       <div className="space-y-3 pb-6 border-b border-[#ede5d8]">
         <div className="text-xs font-bold text-[#785c4b] uppercase tracking-wider">Framework Integration</div>

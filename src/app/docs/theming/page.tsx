@@ -1,10 +1,22 @@
 import React from "react";
+import type { Metadata } from "next";
 import CodeBlock from "@/components/CodeBlock";
+import Breadcrumbs from "@/components/Breadcrumbs";
 import { Palette, Sparkles, Sliders } from "lucide-react";
 
-export const metadata = {
-  title: "Theming & Design Tokens",
-  description: "Customize Ant Design theme tokens, brand colors, and component styles with the warm cream palette.",
+export const metadata: Metadata = {
+  title: "Theming & Design Tokens - antd-dynamic-ui",
+  description:
+    "Customize Ant Design theme tokens, terracotta coral accents, and warm cream palettes across all dynamic components.",
+  alternates: {
+    canonical: "/docs/theming",
+  },
+  keywords: [
+    "antd theme tokens",
+    "ant design customization",
+    "antd warm palette",
+    "configprovider custom theme",
+  ],
 };
 
 export default function ThemingPage() {
@@ -61,6 +73,13 @@ export default function AppThemeProvider({ children }: { children: React.ReactNo
 
   return (
     <div className="space-y-8">
+      <Breadcrumbs
+        items={[
+          { label: "Docs", href: "/docs" },
+          { label: "Theming & Tokens" },
+        ]}
+      />
+
       {/* Header */}
       <div className="space-y-3 pb-6 border-b border-[#ede5d8]">
         <div className="text-xs font-bold text-[#785c4b] uppercase tracking-wider">Customization</div>

@@ -1,11 +1,24 @@
 import React from "react";
 import Link from "next/link";
+import type { Metadata } from "next";
 import { ArrowRight } from "lucide-react";
 import CodeBlock from "@/components/CodeBlock";
+import Breadcrumbs from "@/components/Breadcrumbs";
 
-export const metadata = {
-  title: "Introduction & Architecture",
-  description: "Learn how antd-dynamic-ui turns declarative JSON schemas into high-performance Ant Design components.",
+export const metadata: Metadata = {
+  title: "Introduction & Architecture - antd-dynamic-ui",
+  description:
+    "Learn how antd-dynamic-ui turns declarative JSON schemas into high-performance Ant Design components with 60fps virtualization and automated Zod validation.",
+  alternates: {
+    canonical: "/docs",
+  },
+  keywords: [
+    "antd-dynamic-ui",
+    "ant design architecture",
+    "declarative ui",
+    "schema-driven react",
+    "nextjs 15 antd",
+  ],
 };
 
 export default function DocsIntroPage() {
@@ -31,6 +44,8 @@ export default function UsersView() {
 
   return (
     <div className="space-y-8">
+      <Breadcrumbs items={[{ label: "Documentation" }]} />
+
       {/* Header */}
       <div className="space-y-3 pb-6 border-b border-[#ede5d8]">
         <div className="inline-flex items-center gap-1.5 text-xs font-bold text-[#785c4b] uppercase tracking-wider">

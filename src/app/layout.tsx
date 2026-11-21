@@ -2,10 +2,17 @@ import type { Metadata } from "next";
 import { AntdRegistry } from "@ant-design/nextjs-registry";
 import AntdProvider from "@/components/AntdProvider";
 import Navbar from "@/components/Navbar";
+import { RootJsonLd } from "@/components/JsonLd";
 import "./globals.css";
 
+const siteUrl =
+  process.env.NEXT_PUBLIC_SITE_URL || "https://antd-dynamic-ui-doc.vercel.app";
+
 export const metadata: Metadata = {
-  metadataBase: new URL("https://antd-dynamic-ui.vercel.app"),
+  metadataBase: new URL(siteUrl),
+  alternates: {
+    canonical: "./",
+  },
   title: {
     template: "%s | antd-dynamic-ui",
     default: "antd-dynamic-ui | Schema-Driven UI Framework for Ant Design",
@@ -67,6 +74,9 @@ export default function RootLayout({
 }) {
   return (
     <html lang="en" suppressHydrationWarning>
+      <head>
+        <RootJsonLd />
+      </head>
       <body
         suppressHydrationWarning
         className="min-h-screen bg-[#fbf8f2] text-[#362117] antialiased font-sans selection:bg-[#ede5d8] selection:text-[#362117]"

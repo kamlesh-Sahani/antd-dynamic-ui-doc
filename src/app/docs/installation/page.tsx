@@ -1,10 +1,22 @@
 import React from "react";
+import type { Metadata } from "next";
 import CodeBlock from "@/components/CodeBlock";
+import Breadcrumbs from "@/components/Breadcrumbs";
 import { AlertTriangle, Package, ShieldCheck } from "lucide-react";
 
-export const metadata = {
-  title: "Installation & Setup",
-  description: "Install antd-dynamic-ui and its peer dependencies with npm, pnpm, yarn, or bun.",
+export const metadata: Metadata = {
+  title: "Installation & Setup - antd-dynamic-ui",
+  description:
+    "Step-by-step guide to installing antd-dynamic-ui with npm, pnpm, yarn, and bun for React 18/19 and Next.js 15 projects.",
+  alternates: {
+    canonical: "/docs/installation",
+  },
+  keywords: [
+    "install antd-dynamic-ui",
+    "antd setup",
+    "react 19 antd",
+    "nextjs 15 ant design installation",
+  ],
 };
 
 export default function InstallationPage() {
@@ -18,6 +30,13 @@ npm install antd-dynamic-ui --legacy-peer-deps`;
 
   return (
     <div className="space-y-8">
+      <Breadcrumbs
+        items={[
+          { label: "Docs", href: "/docs" },
+          { label: "Installation & Setup" },
+        ]}
+      />
+
       {/* Header */}
       <div className="space-y-3 pb-6 border-b border-[#ede5d8]">
         <div className="text-xs font-bold text-[#785c4b] uppercase tracking-wider">Getting Started</div>

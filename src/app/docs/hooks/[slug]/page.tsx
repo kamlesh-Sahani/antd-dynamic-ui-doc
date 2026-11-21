@@ -5,6 +5,8 @@ import { HOOKS_DATA } from "@/data/hooksData";
 import PropsTable from "@/components/PropsTable";
 import MultiCodeExamples from "@/components/MultiCodeExamples";
 import SchemaViewer from "@/components/SchemaViewer";
+import { HookJsonLd } from "@/components/JsonLd";
+import Breadcrumbs from "@/components/Breadcrumbs";
 import { CheckCircle2, Cpu } from "lucide-react";
 
 interface HookPageProps {
@@ -31,19 +33,43 @@ export async function generateMetadata({
     };
   }
 
+  const pagePath = `/docs/hooks/${slug}`;
+
   return {
     title: `${item.title} Hook - antd-dynamic-ui`,
     description: item.summary,
+    alternates: {
+      canonical: pagePath,
+    },
     keywords: [
       item.title,
       "react hook",
       "antd-dynamic-ui",
       "ant design",
       "typescript hook",
+      "data fetching",
+      "state management",
+      ...(item.features || []).slice(0, 3),
     ],
     openGraph: {
       title: `${item.title} Hook | antd-dynamic-ui Documentation`,
       description: item.summary,
+      url: pagePath,
+      type: "article",
+      images: [
+        {
+          url: "/logo.svg",
+          width: 120,
+          height: 120,
+          alt: `${item.title} Logo`,
+        },
+      ],
+    },
+    twitter: {
+      card: "summary",
+      title: `${item.title} Hook - antd-dynamic-ui`,
+      description: item.summary,
+      images: ["/logo.svg"],
     },
   };
 }
@@ -57,7 +83,20 @@ export default async function HookDetailPage({ params }: HookPageProps) {
   }
 
   return (
-    <div className="space-y-8">
+    <article
+      itemScope
+      itemType="https://schema.org/TechArticle"
+      className="space-y-8"
+    >
+      <HookJsonLd item={item} />
+      <Breadcrumbs
+        items={[
+          { label: "Docs", href: "/docs" },
+          { label: "Hooks", href: "/docs/hooks/use-fetch" },
+          { label: item.title },
+        ]}
+      />
+
       {/* Header */}
       <div className="space-y-3 pb-6 border-b border-[#ede5d8]">
         <div className="text-xs font-bold text-[#785c4b] uppercase tracking-wider">
@@ -126,6 +165,6 @@ export default async function HookDetailPage({ params }: HookPageProps) {
           <SchemaViewer schema={item.schema} />
         </div>
       )}
-    </div>
+    </article>
   );
 }

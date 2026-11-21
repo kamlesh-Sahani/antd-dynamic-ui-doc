@@ -13,12 +13,15 @@ import DynamicCardPreview from "@/components/previews/DynamicCardPreview";
 import DynamicHeaderPreview from "@/components/previews/DynamicHeaderPreview";
 import DynamicSidebarPreview from "@/components/previews/DynamicSidebarPreview";
 import FormFieldPreview from "@/components/previews/FormFieldPreview";
+import { ComponentJsonLd } from "@/components/JsonLd";
+import Breadcrumbs from "@/components/Breadcrumbs";
 import {
   CheckCircle2,
   Layers,
   Play,
   Sliders,
   FileJson,
+  HelpCircle,
 } from "lucide-react";
 
 interface ComponentPageProps {
@@ -45,20 +48,45 @@ export async function generateMetadata({
     };
   }
 
+  const pagePath = `/docs/components/${slug}`;
+
   return {
     title: `${item.title} Component - antd-dynamic-ui`,
     description: item.summary,
+    alternates: {
+      canonical: pagePath,
+    },
     keywords: [
       item.title,
       "antd-dynamic-ui",
       "ant design",
       "react component",
-      item.category,
+      "react 19",
+      "nextjs 15",
       "schema driven",
+      "json schema",
+      item.category,
+      ...(item.features || []).slice(0, 3),
     ],
     openGraph: {
       title: `${item.title} | antd-dynamic-ui Documentation`,
       description: item.summary,
+      url: pagePath,
+      type: "article",
+      images: [
+        {
+          url: "/logo.svg",
+          width: 120,
+          height: 120,
+          alt: `${item.title} Logo`,
+        },
+      ],
+    },
+    twitter: {
+      card: "summary",
+      title: `${item.title} - antd-dynamic-ui`,
+      description: item.summary,
+      images: ["/logo.svg"],
     },
   };
 }
@@ -108,7 +136,20 @@ export default async function ComponentDetailPage({
         ];
 
   return (
-    <div className="space-y-12 pb-16">
+    <article
+      itemScope
+      itemType="https://schema.org/TechArticle"
+      className="space-y-12 pb-16"
+    >
+      <ComponentJsonLd item={item} />
+      <Breadcrumbs
+        items={[
+          { label: "Docs", href: "/docs" },
+          { label: "Components", href: "/docs/components/dynamic-table" },
+          { label: item.title },
+        ]}
+      />
+
       {/* 1. Header Section */}
       <div className="space-y-4 pb-8 border-b border-[#ede5d8]">
         <div className="flex items-center gap-2">
@@ -217,6 +258,41 @@ export default async function ComponentDetailPage({
           <SchemaViewer schema={item.schema} />
         </section>
       )}
-    </div>
+
+      {/* 5. Frequently Asked Questions & Integration Insights */}
+      <section className="space-y-4 pt-4 border-t border-[#ede5d8]">
+        <div className="space-y-1">
+          <h2 className="text-xl font-bold text-[#362117] flex items-center gap-2">
+            <HelpCircle size={18} className="text-[#362117]" />
+            <span>Frequently Asked Questions & Quick Solutions</span>
+          </h2>
+          <p className="text-xs text-[#8a7566]">
+            Architectural patterns, React 19 compatibility, and integration tips for {item.title}.
+          </p>
+        </div>
+
+        <div className="space-y-3">
+          <details className="group rounded-xl border border-[#ede5d8] bg-white p-4 shadow-xs open:bg-[#fcfaf6] transition-all">
+            <summary className="font-bold text-sm text-[#362117] cursor-pointer list-none flex items-center justify-between">
+              <span>How does {item.title} integrate with Ant Design 5.x and Next.js 15?</span>
+              <span className="text-xs text-[#8a7566] group-open:rotate-180 transition-transform">▼</span>
+            </summary>
+            <p className="mt-2.5 text-xs text-[#5c4738] leading-relaxed">
+              {item.title} is designed as an enhanced, declarative wrapper for Ant Design. It fully supports Next.js 15 App Router when using <code className="text-xs bg-[#f5eee3] px-1 py-0.5 rounded font-mono">@ant-design/nextjs-registry</code>, eliminating SSR hydration mismatches and guaranteeing 0ms layout thrashing.
+            </p>
+          </details>
+
+          <details className="group rounded-xl border border-[#ede5d8] bg-white p-4 shadow-xs open:bg-[#fcfaf6] transition-all">
+            <summary className="font-bold text-sm text-[#362117] cursor-pointer list-none flex items-center justify-between">
+              <span>Can I customize validation, themes, and props for {item.title}?</span>
+              <span className="text-xs text-[#8a7566] group-open:rotate-180 transition-transform">▼</span>
+            </summary>
+            <p className="mt-2.5 text-xs text-[#5c4738] leading-relaxed">
+              Yes. Every prop is fully typed in TypeScript 5 with comprehensive Intellisense. You can pass custom styling via className or style props, configure global Ant Design themes via ConfigProvider, and extend validation logic seamlessly.
+            </p>
+          </details>
+        </div>
+      </section>
+    </article>
   );
 }
