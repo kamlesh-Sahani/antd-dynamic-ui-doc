@@ -3,6 +3,7 @@
 import React, { useState } from "react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
+import BrandLogo from "./BrandLogo";
 import { Search } from "lucide-react";
 
 export interface NavGroup {
@@ -145,6 +146,15 @@ export default function Sidebar() {
             </div>
           </div>
         ))}
+      </div>
+
+      {/* Brand Indicator */}
+      <div className="pt-3 border-t border-[#ede5d8] px-2 flex items-center gap-2.5 pb-2">
+        <BrandLogo size={24} />
+        <div className="leading-tight">
+          <div className="text-xs font-bold text-[#362117]">antd-dynamic-ui</div>
+          <div className="text-[10px] text-[#785c4b]">v1.0.0 • Schema Engine</div>
+        </div>
       </div>
     </aside>
   );

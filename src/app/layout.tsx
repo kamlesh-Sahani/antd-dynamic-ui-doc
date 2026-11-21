@@ -5,6 +5,7 @@ import Navbar from "@/components/Navbar";
 import "./globals.css";
 
 export const metadata: Metadata = {
+  metadataBase: new URL("https://antd-dynamic-ui.vercel.app"),
   title: {
     template: "%s | antd-dynamic-ui",
     default: "antd-dynamic-ui | Schema-Driven UI Framework for Ant Design",
@@ -24,6 +25,17 @@ export const metadata: Metadata = {
     "schema-driven",
   ],
   authors: [{ name: "Kamlesh Sahani" }],
+  icons: {
+    icon: [
+      { url: "/icon.svg", type: "image/svg+xml" },
+      { url: "/favicon.ico" },
+      { url: "/favicon.svg", type: "image/svg+xml" },
+    ],
+    apple: [
+      { url: "/logo.svg" },
+    ],
+    shortcut: ["/icon.svg"],
+  },
   openGraph: {
     title: "antd-dynamic-ui | Schema-Driven UI Framework for Ant Design",
     description:
@@ -31,11 +43,20 @@ export const metadata: Metadata = {
     type: "website",
     locale: "en_US",
     siteName: "antd-dynamic-ui Documentation",
+    images: [
+      {
+        url: "/logo.svg",
+        width: 120,
+        height: 120,
+        alt: "antd-dynamic-ui Logo",
+      },
+    ],
   },
   twitter: {
-    card: "summary_large_image",
+    card: "summary",
     title: "antd-dynamic-ui | Enterprise Schema-Driven UI Suite",
     description: "Declarative React & Next.js Ant Design engine with virtualized tables and Zod validation.",
+    images: ["/logo.svg"],
   },
 };
 

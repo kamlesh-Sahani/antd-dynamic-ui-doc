@@ -3,6 +3,7 @@
 import React, { useState } from "react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
+import BrandLogo from "./BrandLogo";
 import { BookOpen, Layers, Wrench, Menu, X } from "lucide-react";
 
 export default function Navbar() {
@@ -21,11 +22,9 @@ export default function Navbar() {
       <div className="w-full px-4 sm:px-8 lg:px-12 flex items-center justify-between h-16">
         {/* Brand */}
         <div className="flex items-center gap-6">
-          <Link href="/" className="flex items-center gap-2.5 font-bold text-lg text-[#362117]">
-            <div className="w-8 h-8 rounded-lg bg-[#362117] flex items-center justify-center text-[#fbf8f2] font-black text-xs shadow-xs">
-              AD
-            </div>
-            <span className="tracking-tight font-extrabold text-[#362117]">antd-dynamic-ui</span>
+          <Link href="/" className="flex items-center gap-2.5 font-bold text-lg text-[#362117] group">
+            <BrandLogo size={34} />
+            <span className="tracking-tight font-extrabold text-[#362117] group-hover:text-[#e05d44] transition-colors">antd-dynamic-ui</span>
             <span className="text-[11px] font-mono px-2 py-0.5 rounded-full bg-[#f2ebde] text-[#785c4b] font-semibold border border-[#ede5d8]">
               v1.0.0
             </span>

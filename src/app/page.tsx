@@ -2,6 +2,7 @@
 
 import React, { useState } from "react";
 import Link from "next/link";
+import BrandLogo from "@/components/BrandLogo";
 import {
   ArrowRight,
   Terminal,
@@ -51,7 +52,14 @@ export default function HomePage() {
       <div className="absolute top-0 left-1/2 -translate-x-1/2 -z-10 w-[900px] h-[450px] bg-gradient-to-b from-[#f3e7d5]/60 via-[#f8ede0]/30 to-transparent blur-3xl pointer-events-none" />
 
       {/* Hero Section */}
-      <section className="pt-20 pb-16 px-4 sm:px-6 max-w-5xl mx-auto text-center space-y-8">
+      <section className="pt-16 pb-16 px-4 sm:px-6 max-w-5xl mx-auto text-center space-y-8">
+        {/* Animated Brand Emblem */}
+        <div className="flex justify-center">
+          <Link href="/docs" className="group cursor-pointer">
+            <BrandLogo size={80} className="drop-shadow-[0_10px_30px_rgba(54,33,23,0.15)] group-hover:scale-105 transition-transform" />
+          </Link>
+        </div>
+
         {/* Hanging Badge */}
         <div className="flex flex-wrap items-center justify-center gap-2">
           <div className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full text-xs font-bold bg-[#f2ebde] text-[#785c4b] border border-[#ede5d8] shadow-xs">
@@ -309,6 +317,9 @@ export default function HomePage() {
 
       {/* Bottom CTA */}
       <section className="py-16 px-4 sm:px-6 text-center space-y-6">
+        <div className="flex justify-center">
+          <BrandLogo size={52} className="drop-shadow-sm hover:scale-110 transition-transform" />
+        </div>
         <h2 className="text-2xl sm:text-3xl font-extrabold text-[#362117]">
           Ready to supercharge your Ant Design workflow?
         </h2>
