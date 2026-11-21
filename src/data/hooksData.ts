@@ -1,5 +1,4 @@
 import { PropItem } from "@/components/PropsTable";
-import { TroubleshootingItem } from "@/components/TroubleshootCard";
 import { CodeExampleItem } from "@/components/MultiCodeExamples";
 
 export interface HookDoc {
@@ -13,7 +12,7 @@ export interface HookDoc {
   code: string;
   examples: CodeExampleItem[];
   schema?: object | string;
-  troubleshooting?: TroubleshootingItem[];
+  troubleshooting?: any[];
 }
 
 export const HOOKS_DATA: Record<string, HookDoc> = {

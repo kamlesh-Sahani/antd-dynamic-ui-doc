@@ -5,7 +5,6 @@ import { HOOKS_DATA } from "@/data/hooksData";
 import PropsTable from "@/components/PropsTable";
 import MultiCodeExamples from "@/components/MultiCodeExamples";
 import SchemaViewer from "@/components/SchemaViewer";
-import TroubleshootCard from "@/components/TroubleshootCard";
 import { CheckCircle2, Cpu } from "lucide-react";
 
 interface HookPageProps {
@@ -125,16 +124,6 @@ export default async function HookDetailPage({ params }: HookPageProps) {
             Expected API Response Structure
           </h2>
           <SchemaViewer schema={item.schema} />
-        </div>
-      )}
-
-      {/* Troubleshooting if present */}
-      {item.troubleshooting && item.troubleshooting.length > 0 && (
-        <div className="space-y-2">
-          <h2 className="text-lg font-bold text-[#362117]">
-            Troubleshooting & Common Mistakes
-          </h2>
-          <TroubleshootCard items={item.troubleshooting} />
         </div>
       )}
     </div>

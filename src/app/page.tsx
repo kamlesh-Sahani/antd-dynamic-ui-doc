@@ -320,10 +320,10 @@ export default function HomePage() {
             Read the Installation Guide
           </Link>
           <Link
-            href="/docs/troubleshooting"
+            href="/docs/components/dynamic-table"
             className="px-6 py-3 rounded-xl border border-[#ede5d8] bg-white hover:bg-[#fffdf9] text-[#362117] font-bold text-sm transition-all shadow-[0_2px_8px_rgba(54,33,23,0.06)] hover:-translate-y-0.5"
           >
-            Response Mismatch Guide
+            Explore Components
           </Link>
         </div>
       </section>

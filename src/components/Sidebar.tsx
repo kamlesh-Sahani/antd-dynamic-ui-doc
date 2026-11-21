@@ -81,12 +81,6 @@ export const SIDEBAR_NAV: NavGroup[] = [
       { title: "All Utilities Reference", href: "/docs/utils", badge: "15+ Utils" },
     ],
   },
-  {
-    title: "Troubleshooting",
-    items: [
-      { title: "Backend Response Mismatch", href: "/docs/troubleshooting", badge: "Important" },
-    ],
-  },
 ];
 
 export default function Sidebar() {

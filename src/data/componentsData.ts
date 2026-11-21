@@ -1,5 +1,4 @@
 import { PropItem } from "@/components/PropsTable";
-import { TroubleshootingItem } from "@/components/TroubleshootCard";
 import { CodeExampleItem } from "@/components/MultiCodeExamples";
 
 export interface ComponentDoc {
@@ -14,7 +13,7 @@ export interface ComponentDoc {
   code: string;
   examples: CodeExampleItem[];
   schema?: object | string;
-  troubleshooting?: TroubleshootingItem[];
+  troubleshooting?: any[];
 }
 
 export const COMPONENTS_DATA: Record<string, ComponentDoc> = {

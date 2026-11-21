@@ -3,7 +3,7 @@
 import React, { useState } from "react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
-import { BookOpen, Layers, Wrench, AlertTriangle, Menu, X } from "lucide-react";
+import { BookOpen, Layers, Wrench, Menu, X } from "lucide-react";
 
 export default function Navbar() {
   const pathname = usePathname();
@@ -14,7 +14,6 @@ export default function Navbar() {
     { href: "/docs/components/dynamic-table", label: "Components", icon: Layers },
     { href: "/docs/hooks/use-fetch", label: "Hooks", icon: Layers },
     { href: "/docs/utils", label: "Utilities", icon: Wrench },
-    { href: "/docs/troubleshooting", label: "Troubleshooting", icon: AlertTriangle },
   ];
 
   return (

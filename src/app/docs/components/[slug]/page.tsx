@@ -5,7 +5,6 @@ import { COMPONENTS_DATA } from "@/data/componentsData";
 import PropsTable from "@/components/PropsTable";
 import ExampleCard from "@/components/ExampleCard";
 import SchemaViewer from "@/components/SchemaViewer";
-import TroubleshootCard from "@/components/TroubleshootCard";
 import DynamicTablePreview from "@/components/previews/DynamicTablePreview";
 import DynamicFormPreview from "@/components/previews/DynamicFormPreview";
 import DynamicModalPreview from "@/components/previews/DynamicModalPreview";
@@ -20,7 +19,6 @@ import {
   Play,
   Sliders,
   FileJson,
-  AlertTriangle,
 } from "lucide-react";
 
 interface ComponentPageProps {
@@ -217,23 +215,6 @@ export default async function ComponentDetailPage({
           </div>
 
           <SchemaViewer schema={item.schema} />
-        </section>
-      )}
-
-      {/* 5. Troubleshooting & Response Mismatches (if available) */}
-      {item.troubleshooting && item.troubleshooting.length > 0 && (
-        <section className="space-y-3">
-          <div className="space-y-1">
-            <h2 className="text-xl font-bold text-[#362117] flex items-center gap-2">
-              <AlertTriangle size={18} className="text-[#c07212]" />
-              <span>Common Response Mismatches & Solutions</span>
-            </h2>
-            <p className="text-xs text-[#8a7566]">
-              Known backend schema pitfalls and side-by-side incorrect vs. expected payload fixes.
-            </p>
-          </div>
-
-          <TroubleshootCard items={item.troubleshooting} />
         </section>
       )}
     </div>

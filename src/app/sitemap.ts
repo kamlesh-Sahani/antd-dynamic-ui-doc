@@ -12,7 +12,6 @@ export default function sitemap(): MetadataRoute.Sitemap {
     "/docs/frameworks",
     "/docs/theming",
     "/docs/utils",
-    "/docs/troubleshooting",
   ].map((route) => ({
     url: `${baseUrl}${route}`,
     lastModified: new Date(),
