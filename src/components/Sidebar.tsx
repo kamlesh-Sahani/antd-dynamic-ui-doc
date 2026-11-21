@@ -101,24 +101,26 @@ export default function Sidebar() {
   })).filter((group) => group.items.length > 0);
 
   return (
-    <aside className="w-64 shrink-0 border-r border-[#ede5d8] bg-[#fbf8f2] min-h-[calc(100vh-4rem)] p-4 flex flex-col gap-6">
+    <aside className="w-64 h-full border-r border-[#ede5d8] bg-[#fbf8f2] p-4 flex flex-col gap-4 overflow-y-auto overscroll-contain">
       {/* Quick Search */}
-      <div className="relative">
-        <Search
-          size={14}
-          className="absolute left-3 top-1/2 -translate-y-1/2 text-[#8a7566]"
-        />
-        <input
-          type="text"
-          value={searchQuery}
-          onChange={(e) => setSearchQuery(e.target.value)}
-          placeholder="Search documentation..."
-          className="w-full pl-9 pr-3 py-1.5 text-xs rounded-xl bg-white border border-[#ede5d8] text-[#362117] placeholder-[#a49384] focus:outline-hidden focus:ring-1 focus:ring-[#e05d44] focus:border-[#e05d44] transition-all shadow-[0_1px_3px_rgba(54,33,23,0.03)]"
-        />
+      <div className="sticky top-0 z-10 bg-[#fbf8f2] pb-1 pt-0.5">
+        <div className="relative">
+          <Search
+            size={14}
+            className="absolute left-3 top-1/2 -translate-y-1/2 text-[#8a7566]"
+          />
+          <input
+            type="text"
+            value={searchQuery}
+            onChange={(e) => setSearchQuery(e.target.value)}
+            placeholder="Search documentation..."
+            className="w-full pl-9 pr-3 py-1.5 text-xs rounded-xl bg-white border border-[#ede5d8] text-[#362117] placeholder-[#a49384] focus:outline-hidden focus:ring-1 focus:ring-[#e05d44] focus:border-[#e05d44] transition-all shadow-[0_1px_3px_rgba(54,33,23,0.03)]"
+          />
+        </div>
       </div>
 
       {/* Nav Groups */}
-      <div className="space-y-6 overflow-y-auto pr-1">
+      <div className="space-y-6 flex-1 pr-1 pb-10">
         {filteredNav.map((group, idx) => (
           <div key={idx} className="space-y-1.5">
             <h4 className="text-[11px] font-bold text-[#8a7566] uppercase tracking-wider px-2">

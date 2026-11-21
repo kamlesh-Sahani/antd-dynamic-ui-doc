@@ -10,12 +10,12 @@ export default function DocsLayout({
 }) {
   return (
     <div className="w-full flex min-h-[calc(100vh-4rem)]">
-      <div className="hidden lg:block shrink-0">
+      <div className="hidden lg:block shrink-0 sticky top-16 h-[calc(100vh-4rem)] z-30">
         <Sidebar />
       </div>
-      <div className="flex-1 min-w-0 py-8 px-4 sm:px-8 lg:px-12 w-full">
+      <main className="flex-1 min-w-0 py-8 px-4 sm:px-8 lg:px-12 w-full">
         {children}
-      </div>
+      </main>
     </div>
   );
 }
