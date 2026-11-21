@@ -1,40 +1,13 @@
 "use client";
 
-import React, { useState, useEffect } from "react";
+import React, { useState } from "react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
-import { Moon, Sun, Layers, BookOpen, Wrench, AlertTriangle, Menu, X } from "lucide-react";
+import { BookOpen, Layers, Wrench, AlertTriangle, Menu, X } from "lucide-react";
 
 export default function Navbar() {
   const pathname = usePathname();
-  const [isDark, setIsDark] = useState(false);
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
-
-  useEffect(() => {
-    if (typeof window !== "undefined") {
-      const stored = localStorage.getItem("theme");
-      // Default to light mode unless user explicitly set "dark"
-      const isDarkMode = stored === "dark";
-      setIsDark(isDarkMode);
-      if (isDarkMode) {
-        document.documentElement.classList.add("dark");
-      } else {
-        document.documentElement.classList.remove("dark");
-      }
-    }
-  }, []);
-
-  const toggleDarkMode = () => {
-    const nextDark = !isDark;
-    setIsDark(nextDark);
-    if (nextDark) {
-      document.documentElement.classList.add("dark");
-      localStorage.setItem("theme", "dark");
-    } else {
-      document.documentElement.classList.remove("dark");
-      localStorage.setItem("theme", "light");
-    }
-  };
 
   const navLinks = [
     { href: "/docs", label: "Documentation", icon: BookOpen },
@@ -45,16 +18,16 @@ export default function Navbar() {
   ];
 
   return (
-    <header className="sticky top-0 z-50 w-full border-b border-zinc-200 dark:border-zinc-800 bg-white/80 dark:bg-zinc-950/80 backdrop-blur-md">
+    <header className="sticky top-0 z-50 w-full border-b border-[#ede5d8] bg-[#fbf8f2]/90 backdrop-blur-md">
       <div className="w-full px-4 sm:px-8 lg:px-12 flex items-center justify-between h-16">
         {/* Brand */}
         <div className="flex items-center gap-6">
-          <Link href="/" className="flex items-center gap-2.5 font-bold text-lg text-zinc-900 dark:text-white">
-            <div className="w-8 h-8 rounded-lg bg-blue-600 flex items-center justify-center text-white font-extrabold shadow-sm">
+          <Link href="/" className="flex items-center gap-2.5 font-bold text-lg text-[#362117]">
+            <div className="w-8 h-8 rounded-lg bg-[#362117] flex items-center justify-center text-[#fbf8f2] font-black text-xs shadow-xs">
               AD
             </div>
-            <span className="tracking-tight">antd-dynamic-ui</span>
-            <span className="text-[11px] font-mono px-2 py-0.5 rounded-full bg-blue-50 text-blue-700 dark:bg-blue-950/60 dark:text-blue-300 font-semibold border border-blue-200 dark:border-blue-800">
+            <span className="tracking-tight font-extrabold text-[#362117]">antd-dynamic-ui</span>
+            <span className="text-[11px] font-mono px-2 py-0.5 rounded-full bg-[#f2ebde] text-[#785c4b] font-semibold border border-[#ede5d8]">
               v1.0.0
             </span>
           </Link>
@@ -67,10 +40,10 @@ export default function Navbar() {
                 <Link
                   key={link.href}
                   href={link.href}
-                  className={`px-3 py-1.5 rounded-md text-sm font-medium transition-colors ${
+                  className={`px-3 py-1.5 rounded-lg text-xs font-semibold transition-colors ${
                     isActive
-                      ? "text-blue-600 dark:text-blue-400 bg-blue-50/60 dark:bg-blue-950/40 font-semibold"
-                      : "text-zinc-600 dark:text-zinc-400 hover:text-zinc-900 dark:hover:text-zinc-200 hover:bg-zinc-100 dark:hover:bg-zinc-900"
+                      ? "text-[#362117] bg-[#f0e8dc] font-bold shadow-xs border border-[#e5dbc9]"
+                      : "text-[#785c4b] hover:text-[#362117] hover:bg-[#f5eee3]"
                   }`}
                 >
                   {link.label}
@@ -80,56 +53,56 @@ export default function Navbar() {
           </nav>
         </div>
 
-        {/* Right Actions */}
-        <div className="flex items-center gap-2">
-          <button
-            onClick={toggleDarkMode}
-            aria-label="Toggle Theme"
-            className="p-2 rounded-lg text-zinc-600 dark:text-zinc-400 hover:bg-zinc-100 dark:hover:bg-zinc-800 transition-colors"
-          >
-            {isDark ? <Sun size={18} /> : <Moon size={18} />}
-          </button>
-
+        {/* Right Actions: GitHub Pill */}
+        <div className="flex items-center gap-3">
           <a
             href="https://github.com/kamlesh-Sahani/antd-dynamic-ui"
             target="_blank"
             rel="noreferrer"
             aria-label="GitHub Repository"
-            className="p-2 rounded-lg text-zinc-600 dark:text-zinc-400 hover:bg-zinc-100 dark:hover:bg-zinc-800 transition-colors"
+            className="flex items-center gap-2 px-3.5 py-1.5 rounded-xl bg-white hover:bg-[#f7f2ea] text-[#362117] text-xs font-semibold border border-[#ede5d8] shadow-[0_1px_4px_rgba(54,33,23,0.06)] hover:shadow-xs transition-all cursor-pointer"
           >
             <svg
               width="18"
               height="18"
-              style={{ width: "18px", height: "18px" }}
-              className="w-[18px] h-[18px] fill-current"
               viewBox="0 0 24 24"
-              xmlns="http://www.w3.org/2000/svg"
+              fill="currentColor"
+              aria-hidden="true"
+              className="shrink-0"
+              style={{ width: 18, height: 18 }}
             >
-              <path d="M12 0C5.37 0 0 5.37 0 12c0 5.31 3.435 9.795 8.205 11.385.6.105.825-.255.825-.57 0-.285-.015-1.23-.015-2.235-3.015.555-3.795-.735-4.035-1.41-.135-.345-.72-1.41-1.23-1.695-.42-.225-1.02-.78-.015-.795.945-.015 1.62.87 1.845 1.23 1.08 1.815 2.805 1.305 3.495.99.105-.78.42-1.305.765-1.605-2.67-.3-5.46-1.335-5.46-5.925 0-1.305.465-2.385 1.23-3.225-.12-.3-.54-1.53.12-3.18 0 0 1.005-.315 3.3 1.23.96-.27 1.98-.405 3-.405s2.04.135 3 .405c2.295-1.56 3.3-1.23 3.3-1.23.66 1.65.24 2.88.12 3.18.765.84 1.23 1.905 1.23 3.225 0 4.605-2.805 5.625-5.475 5.925.435.375.81 1.095.81 2.22 0 1.605-.015 2.895-.015 3.3 0 .315.225.69.825.57A12.02 12.02 0 0024 12c0-6.63-5.37-12-12-12z" />
+              <path
+                fillRule="evenodd"
+                clipRule="evenodd"
+                d="M12 2C6.477 2 2 6.484 2 12.017c0 4.425 2.865 8.18 6.839 9.504.5.092.682-.217.682-.483 0-.237-.008-.868-.013-1.703-2.782.605-3.369-1.343-3.369-1.343-.454-1.158-1.11-1.466-1.11-1.466-.908-.62.069-.608.069-.608 1.003.07 1.53 1.032 1.53 1.032.892 1.53 2.341 1.088 2.91.832.092-.647.35-1.088.636-1.338-2.22-.253-4.555-1.113-4.555-4.951 0-1.093.39-1.988 1.029-2.688-.103-.253-.446-1.272.098-2.65 0 0 .84-.27 2.75 1.026A9.564 9.564 0 0112 6.844c.85.004 1.705.115 2.504.337 1.909-1.296 2.747-1.027 2.747-1.027.546 1.379.202 2.398.1 2.651.64.7 1.028 1.595 1.028 2.688 0 3.848-2.339 4.695-4.566 4.943.359.309.678.92.678 1.855 0 1.338-.012 2.419-.012 2.747 0 .268.18.58.688.482A10.019 10.019 0 0022 12.017C22 6.484 17.522 2 12 2z"
+              />
             </svg>
+            <span className="hidden sm:inline">GitHub</span>
           </a>
 
-          {/* Mobile hamburger */}
+          {/* Mobile menu button */}
           <button
             onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
-            className="md:hidden p-2 rounded-lg text-zinc-600 dark:text-zinc-400 hover:bg-zinc-100 dark:hover:bg-zinc-800"
+            className="md:hidden p-2 rounded-lg text-[#785c4b] hover:text-[#362117] hover:bg-[#f5eee3]"
+            aria-label="Toggle Navigation Menu"
           >
             {mobileMenuOpen ? <X size={20} /> : <Menu size={20} />}
           </button>
         </div>
       </div>
 
-      {/* Mobile Menu Dropdown */}
+      {/* Mobile Nav Drawer */}
       {mobileMenuOpen && (
-        <div className="md:hidden border-b border-zinc-200 dark:border-zinc-800 bg-white dark:bg-zinc-950 p-4 space-y-2">
+        <div className="md:hidden border-b border-[#ede5d8] bg-[#fbf8f2] px-4 py-3 space-y-1">
           {navLinks.map((link) => (
             <Link
               key={link.href}
               href={link.href}
               onClick={() => setMobileMenuOpen(false)}
-              className="block px-3 py-2 rounded-md text-sm font-medium text-zinc-700 dark:text-zinc-300 hover:bg-zinc-100 dark:hover:bg-zinc-900"
+              className="flex items-center gap-2 px-3 py-2 rounded-lg text-sm font-semibold text-[#5c4738] hover:text-[#362117] hover:bg-[#f0e8dc]"
             >
-              {link.label}
+              <link.icon size={16} />
+              <span>{link.label}</span>
             </Link>
           ))}
         </div>

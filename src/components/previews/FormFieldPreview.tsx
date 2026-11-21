@@ -295,9 +295,9 @@ export default function FormFieldPreview({ type }: FormFieldPreviewProps) {
         </div>
       </FormProvider>
 
-      <div className="text-xs text-zinc-500 bg-zinc-50 dark:bg-zinc-950 p-3 rounded-lg border border-zinc-200 dark:border-zinc-800 flex justify-between items-center overflow-x-auto">
-        <span className="shrink-0 mr-2">React Hook Form Live State:</span>
-        <span className="font-mono text-blue-600 dark:text-blue-400 truncate">
+      <div className="text-xs text-[#785c4b] bg-[#f5eee3] p-3 rounded-xl border border-[#ede5d8] flex justify-between items-center overflow-x-auto shadow-xs">
+        <span className="shrink-0 mr-2 font-semibold">React Hook Form Live State:</span>
+        <span className="font-mono text-[#362117] font-bold truncate">
           {JSON.stringify(formValues)}
         </span>
       </div>

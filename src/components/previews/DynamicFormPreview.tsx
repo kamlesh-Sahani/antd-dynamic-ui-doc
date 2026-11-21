@@ -74,12 +74,12 @@ export default function DynamicFormPreview() {
       </div>
 
       {submittedData && (
-        <div className="p-4 rounded-xl border border-emerald-200 dark:border-emerald-900/40 bg-emerald-50/50 dark:bg-emerald-950/20 space-y-2">
-          <div className="flex items-center gap-2 text-emerald-700 dark:text-emerald-400 font-semibold text-xs">
+        <div className="p-4 rounded-xl border border-[#c8e6c9] bg-[#edf7ee] space-y-2">
+          <div className="flex items-center gap-2 text-[#2e7d32] font-bold text-xs">
             <CheckCircle2 size={16} />
             <span>Form Submitted Successfully (Zod Validated Output)</span>
           </div>
-          <pre className="text-xs font-mono text-emerald-800 dark:text-emerald-300 bg-white/80 dark:bg-zinc-950 p-3 rounded-lg overflow-x-auto border border-emerald-200/60 dark:border-emerald-900/40">
+          <pre className="text-xs font-mono text-[#2e7d32] bg-white p-3 rounded-lg overflow-x-auto border border-[#c8e6c9]">
             {JSON.stringify(submittedData, null, 2)}
           </pre>
         </div>

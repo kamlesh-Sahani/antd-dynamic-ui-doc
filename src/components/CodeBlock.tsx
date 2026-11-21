@@ -1,7 +1,7 @@
 "use client";
 
-import React, { useState, useEffect } from "react";
-import { Highlight, themes } from "prism-react-renderer";
+import React, { useState } from "react";
+import { Highlight, PrismTheme } from "prism-react-renderer";
 import { Check, Copy } from "lucide-react";
 
 interface CodeBlockProps {
@@ -10,29 +10,54 @@ interface CodeBlockProps {
   filename?: string;
 }
 
+// Warm artisanal toast syntax theme matching React Hot Toast palette
+const toastPrismTheme: PrismTheme = {
+  plain: {
+    color: "#362117",
+    backgroundColor: "transparent",
+  },
+  styles: [
+    {
+      types: ["comment", "prolog", "doctype", "cdata"],
+      style: { color: "#9c8473", fontStyle: "italic" },
+    },
+    {
+      types: ["keyword", "tag", "operator", "rule"],
+      style: { color: "#c4432b", fontWeight: "bold" },
+    },
+    {
+      types: ["string", "attr-value", "char"],
+      style: { color: "#437a3b" },
+    },
+    {
+      types: ["number", "boolean", "constant"],
+      style: { color: "#c07212" },
+    },
+    {
+      types: ["function", "class-name", "builtin"],
+      style: { color: "#2563eb", fontWeight: "600" },
+    },
+    {
+      types: ["attr-name", "property"],
+      style: { color: "#785c4b" },
+    },
+    {
+      types: ["punctuation", "selector"],
+      style: { color: "#8a7566" },
+    },
+    {
+      types: ["variable"],
+      style: { color: "#8b5cf6" },
+    },
+  ],
+};
+
 export default function CodeBlock({
   code,
   language = "tsx",
   filename,
 }: CodeBlockProps) {
   const [copied, setCopied] = useState(false);
-  const [isDark, setIsDark] = useState(false);
-
-  useEffect(() => {
-    const checkDark = () => {
-      setIsDark(document.documentElement.classList.contains("dark"));
-    };
-
-    checkDark();
-
-    const observer = new MutationObserver(checkDark);
-    observer.observe(document.documentElement, {
-      attributes: true,
-      attributeFilter: ["class"],
-    });
-
-    return () => observer.disconnect();
-  }, []);
 
   const handleCopy = async () => {
     try {
@@ -44,14 +69,12 @@ export default function CodeBlock({
     }
   };
 
-  const activeTheme = isDark ? themes.vsDark : themes.github;
-
   return (
-    <div className="relative my-4 rounded-xl border border-zinc-200 dark:border-zinc-800 bg-zinc-50/80 dark:bg-zinc-950 text-zinc-900 dark:text-zinc-100 overflow-hidden shadow-xs">
+    <div className="relative my-4 rounded-xl border border-[#ede5d8] bg-[#f5eee3] text-[#362117] overflow-hidden shadow-[0_1px_4px_rgba(54,33,23,0.04)]">
       {filename && (
-        <div className="flex items-center justify-between px-4 py-2 bg-zinc-100/80 dark:bg-zinc-900 border-b border-zinc-200 dark:border-zinc-800 text-xs font-mono text-zinc-600 dark:text-zinc-400">
-          <span className="font-medium">{filename}</span>
-          <span className="uppercase text-[10px] tracking-wider text-zinc-500 font-semibold">
+        <div className="flex items-center justify-between px-4 py-2 bg-[#ede5d8] border-b border-[#e2d7c5] text-xs font-mono text-[#362117]">
+          <span className="font-semibold">{filename}</span>
+          <span className="uppercase text-[10px] tracking-wider text-[#785c4b] font-bold">
             {language}
           </span>
         </div>
@@ -59,24 +82,24 @@ export default function CodeBlock({
       <button
         onClick={handleCopy}
         aria-label="Copy code to clipboard"
-        className="absolute top-2.5 right-2.5 z-10 px-2 py-1 rounded-md bg-white dark:bg-zinc-800/90 hover:bg-zinc-100 dark:hover:bg-zinc-700 text-zinc-600 dark:text-zinc-300 hover:text-zinc-900 dark:hover:text-white transition-all text-xs flex items-center gap-1.5 border border-zinc-200 dark:border-zinc-700/60 shadow-xs cursor-pointer"
+        className="absolute top-2.5 right-2.5 z-10 px-2.5 py-1 rounded-lg bg-white hover:bg-[#fffdf9] text-[#362117] hover:text-[#2d1a10] transition-all text-xs flex items-center gap-1.5 border border-[#ede5d8] shadow-[0_1px_3px_rgba(54,33,23,0.06)] cursor-pointer"
       >
         {copied ? (
           <>
-            <Check size={13} className="text-emerald-600 dark:text-emerald-400" />
-            <span className="text-emerald-600 dark:text-emerald-400 font-medium text-[11px]">
+            <Check size={13} className="text-emerald-700" />
+            <span className="text-emerald-700 font-bold text-[11px]">
               Copied
             </span>
           </>
         ) : (
           <>
-            <Copy size={13} />
-            <span className="text-[11px]">Copy</span>
+            <Copy size={13} className="text-[#785c4b]" />
+            <span className="text-[11px] font-semibold text-[#5c4738]">Copy</span>
           </>
         )}
       </button>
 
-      <Highlight theme={activeTheme} code={code.trim()} language={language}>
+      <Highlight theme={toastPrismTheme} code={code.trim()} language={language}>
         {({ className, style, tokens, getLineProps, getTokenProps }) => (
           <pre
             className={`${className} p-4 text-[13px] font-mono overflow-x-auto leading-relaxed bg-transparent`}
@@ -84,7 +107,7 @@ export default function CodeBlock({
           >
             {tokens.map((line, i) => (
               <div key={i} {...getLineProps({ line })}>
-                <span className="inline-block w-8 select-none text-zinc-400 dark:text-zinc-600 text-right pr-4 text-xs font-mono">
+                <span className="inline-block w-8 select-none text-[#a49384] text-right pr-4 text-xs font-mono">
                   {i + 1}
                 </span>
                 {line.map((token, key) => (

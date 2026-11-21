@@ -1,6 +1,6 @@
 import React from "react";
 import TroubleshootCard, { TroubleshootingItem } from "@/components/TroubleshootCard";
-import { AlertTriangle, CheckCircle2, FileJson, ShieldAlert } from "lucide-react";
+import { AlertTriangle, ShieldAlert } from "lucide-react";
 
 export const metadata = {
   title: "Backend Response Mismatch & Troubleshooting Guide",
@@ -28,7 +28,7 @@ const TROUBLESHOOTING_GUIDES: TroubleshootingItem[] = [
   "success": true,
   "data": {
     "rows": [
-      { "id": 1, "name": "Alexander" }
+      { "id": [{ "type": "TEXT", "title": "1" }], "name": [{ "type": "TEXT", "title": "Alexander" }] }
     ],
     "totalRows": 100,
     "pageNumber": 1,
@@ -122,26 +122,26 @@ export default function TroubleshootingPage() {
   return (
     <div className="space-y-8">
       {/* Header */}
-      <div className="space-y-3 pb-6 border-b border-zinc-200 dark:border-zinc-800">
-        <div className="text-xs font-semibold text-amber-600 dark:text-amber-400">
+      <div className="space-y-3 pb-6 border-b border-[#ede5d8]">
+        <div className="text-xs font-bold text-[#c07212] uppercase tracking-wider">
           Troubleshooting & Diagnostics
         </div>
 
-        <h1 className="text-3xl font-extrabold tracking-tight text-zinc-900 dark:text-zinc-50 flex items-center gap-2">
-          <AlertTriangle className="text-amber-500" size={28} />
+        <h1 className="text-3xl font-extrabold tracking-tight text-[#362117] flex items-center gap-2">
+          <AlertTriangle className="text-[#c07212]" size={28} />
           <span>Backend Response Mismatch Guide</span>
         </h1>
 
-        <p className="text-sm sm:text-base text-zinc-600 dark:text-zinc-300 leading-relaxed max-w-3xl">
+        <p className="text-sm sm:text-base text-[#5c4738] leading-relaxed max-w-3xl">
           More than 80% of frontend issues in schema-driven UI libraries stem from subtle payload discrepancies between backend API responses and frontend component expectations. This diagnostic guide catalogs the most common payload mismatches and provides exact before-and-after solutions.
         </p>
       </div>
 
       {/* Troubleshooting Matrix Cards */}
       <div className="space-y-4">
-        <h2 className="text-lg font-bold text-zinc-900 dark:text-zinc-100 flex items-center gap-2">
-          <ShieldAlert size={18} className="text-rose-500" />
-          Common Payload Incompatibilities & Fixes
+        <h2 className="text-lg font-bold text-[#362117] flex items-center gap-2">
+          <ShieldAlert size={18} className="text-[#c4432b]" />
+          <span>Common Payload Incompatibilities & Fixes</span>
         </h2>
         <TroubleshootCard items={TROUBLESHOOTING_GUIDES} />
       </div>

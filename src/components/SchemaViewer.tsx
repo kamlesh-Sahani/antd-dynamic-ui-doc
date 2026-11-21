@@ -28,33 +28,33 @@ export default function SchemaViewer({
   };
 
   return (
-    <div className="my-6 rounded-xl border border-zinc-200 dark:border-zinc-800 bg-zinc-50/80 dark:bg-zinc-950 overflow-hidden shadow-xs">
-      <div className="flex items-center justify-between px-4 py-3 bg-zinc-100/80 dark:bg-zinc-900 border-b border-zinc-200 dark:border-zinc-800">
-        <div className="flex items-center gap-2">
-          <FileJson className="text-blue-600 dark:text-blue-400" size={18} />
+    <div className="my-6 rounded-2xl border border-[#ede5d8] bg-[#f5eee3] overflow-hidden shadow-[0_2px_8px_rgba(54,33,23,0.04)]">
+      <div className="flex items-center justify-between px-4 py-3 bg-[#ede5d8] border-b border-[#ded3c3]">
+        <div className="flex items-center gap-2.5">
+          <FileJson className="text-[#c4432b]" size={18} />
           <div>
-            <h4 className="text-xs font-semibold text-zinc-900 dark:text-zinc-200">{title}</h4>
-            {description && <p className="text-[11px] text-zinc-500 dark:text-zinc-400">{description}</p>}
+            <h4 className="text-xs font-bold text-[#362117]">{title}</h4>
+            {description && <p className="text-[11px] text-[#785c4b]">{description}</p>}
           </div>
         </div>
         <button
           onClick={handleCopy}
-          className="flex items-center gap-1.5 px-2.5 py-1 text-xs rounded-md bg-white dark:bg-zinc-800 hover:bg-zinc-50 dark:hover:bg-zinc-700 text-zinc-700 dark:text-zinc-300 border border-zinc-200 dark:border-zinc-700 shadow-xs transition-colors cursor-pointer"
+          className="flex items-center gap-1.5 px-2.5 py-1 text-xs rounded-lg bg-white hover:bg-[#fffefc] text-[#362117] font-semibold border border-[#ded3c3] shadow-xs transition-colors cursor-pointer"
         >
           {copied ? (
             <>
-              <Check size={13} className="text-emerald-600 dark:text-emerald-400" />
-              <span className="text-emerald-600 dark:text-emerald-400 font-medium">Copied JSON</span>
+              <Check size={13} className="text-[#437a3b]" />
+              <span className="text-[#437a3b] font-bold">Copied JSON</span>
             </>
           ) : (
             <>
-              <Copy size={13} />
+              <Copy size={13} className="text-[#785c4b]" />
               <span>Copy JSON</span>
             </>
           )}
         </button>
       </div>
-      <pre className="p-4 text-xs font-mono text-zinc-800 dark:text-emerald-400 bg-white dark:bg-zinc-950 overflow-x-auto leading-relaxed max-h-[450px]">
+      <pre className="p-4 text-xs font-mono text-[#362117] bg-[#f5eee3] overflow-x-auto leading-relaxed max-h-[450px]">
         {jsonString}
       </pre>
     </div>

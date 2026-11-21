@@ -3,7 +3,7 @@
 import React, { useState } from "react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
-import { Search, ChevronDown, ChevronRight } from "lucide-react";
+import { Search } from "lucide-react";
 
 export interface NavGroup {
   title: string;
@@ -101,24 +101,27 @@ export default function Sidebar() {
   })).filter((group) => group.items.length > 0);
 
   return (
-    <aside className="w-64 shrink-0 border-r border-zinc-200 dark:border-zinc-800 bg-zinc-50/40 dark:bg-zinc-950/40 p-4 h-[calc(100vh-4rem)] sticky top-16 overflow-y-auto">
-      {/* Search Input */}
-      <div className="relative mb-5">
-        <Search className="absolute left-2.5 top-2.5 text-zinc-400" size={15} />
+    <aside className="w-64 shrink-0 border-r border-[#ede5d8] bg-[#fbf8f2] min-h-[calc(100vh-4rem)] p-4 flex flex-col gap-6">
+      {/* Quick Search */}
+      <div className="relative">
+        <Search
+          size={14}
+          className="absolute left-3 top-1/2 -translate-y-1/2 text-[#8a7566]"
+        />
         <input
           type="text"
-          placeholder="Filter documentation..."
           value={searchQuery}
           onChange={(e) => setSearchQuery(e.target.value)}
-          className="w-full pl-8 pr-3 py-1.5 text-xs rounded-lg border border-zinc-200 dark:border-zinc-800 bg-white dark:bg-zinc-900 text-zinc-900 dark:text-zinc-100 placeholder:text-zinc-400 focus:outline-none focus:ring-1 focus:ring-blue-500"
+          placeholder="Search documentation..."
+          className="w-full pl-9 pr-3 py-1.5 text-xs rounded-xl bg-white border border-[#ede5d8] text-[#362117] placeholder-[#a49384] focus:outline-hidden focus:ring-1 focus:ring-[#e05d44] focus:border-[#e05d44] transition-all shadow-[0_1px_3px_rgba(54,33,23,0.03)]"
         />
       </div>
 
-      {/* Nav groups */}
-      <div className="space-y-6">
+      {/* Nav Groups */}
+      <div className="space-y-6 overflow-y-auto pr-1">
         {filteredNav.map((group, idx) => (
           <div key={idx} className="space-y-1.5">
-            <h4 className="text-[11px] font-bold uppercase tracking-wider text-zinc-400 dark:text-zinc-500 px-2.5">
+            <h4 className="text-[11px] font-bold text-[#8a7566] uppercase tracking-wider px-2">
               {group.title}
             </h4>
             <div className="space-y-0.5">
@@ -128,15 +131,15 @@ export default function Sidebar() {
                   <Link
                     key={item.href}
                     href={item.href}
-                    className={`flex items-center justify-between px-2.5 py-1.5 rounded-lg text-xs font-medium transition-colors ${
+                    className={`flex items-center justify-between px-2.5 py-1.5 rounded-lg text-xs font-semibold transition-all ${
                       isActive
-                        ? "bg-blue-50 dark:bg-blue-950/60 text-blue-600 dark:text-blue-400 font-semibold"
-                        : "text-zinc-600 dark:text-zinc-400 hover:text-zinc-900 dark:hover:text-zinc-100 hover:bg-zinc-100 dark:hover:bg-zinc-900/60"
+                        ? "bg-[#f0e8dc] text-[#362117] font-bold shadow-xs border border-[#e5dbc9]"
+                        : "text-[#5c4738] hover:text-[#362117] hover:bg-[#f5eee3]"
                     }`}
                   >
-                    <span>{item.title}</span>
+                    <span className="truncate">{item.title}</span>
                     {item.badge && (
-                      <span className="text-[9px] font-sans px-1.5 py-0.2 rounded-full bg-zinc-200/70 dark:bg-zinc-800 text-zinc-600 dark:text-zinc-400 font-semibold">
+                      <span className="text-[10px] font-sans px-1.5 py-0.2 rounded-full bg-[#f2ebde] text-[#785c4b] font-semibold border border-[#ede5d8]">
                         {item.badge}
                       </span>
                     )}

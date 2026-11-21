@@ -3,7 +3,6 @@ import { notFound } from "next/navigation";
 import type { Metadata } from "next";
 import { COMPONENTS_DATA } from "@/data/componentsData";
 import PropsTable from "@/components/PropsTable";
-import CodeBlock from "@/components/CodeBlock";
 import MultiCodeExamples from "@/components/MultiCodeExamples";
 import SchemaViewer from "@/components/SchemaViewer";
 import TroubleshootCard from "@/components/TroubleshootCard";
@@ -101,35 +100,35 @@ export default async function ComponentDetailPage({
   return (
     <div className="space-y-12 pb-16">
       {/* 1. Header Section */}
-      <div className="space-y-4 pb-8 border-b border-zinc-200 dark:border-zinc-800">
+      <div className="space-y-4 pb-8 border-b border-[#ede5d8]">
         <div className="flex items-center gap-2">
-          <span className="text-xs font-semibold text-blue-600 dark:text-blue-400">
+          <span className="text-xs font-bold text-[#785c4b] uppercase tracking-wider">
             {item.category}
           </span>
           {item.badge && (
-            <span className="text-[10px] font-sans px-2.5 py-0.5 rounded-full bg-blue-50 text-blue-700 dark:bg-blue-950 dark:text-blue-300 font-semibold border border-blue-200 dark:border-blue-800">
+            <span className="text-[10px] font-sans px-2.5 py-0.5 rounded-full bg-[#f2ebde] text-[#785c4b] font-bold border border-[#ede5d8]">
               {item.badge}
             </span>
           )}
         </div>
 
-        <h1 className="text-3xl sm:text-4xl font-extrabold tracking-tight text-zinc-900 dark:text-zinc-50 flex items-center gap-3">
-          <div className="w-10 h-10 rounded-xl bg-blue-50 dark:bg-blue-950/60 flex items-center justify-center text-blue-600 dark:text-blue-400">
+        <h1 className="text-3xl sm:text-4xl font-extrabold tracking-tight text-[#362117] flex items-center gap-3">
+          <div className="w-10 h-10 rounded-xl bg-[#f5eee3] flex items-center justify-center text-[#362117] border border-[#ede5d8] shadow-xs">
             <Layers size={22} />
           </div>
           <span>{item.title}</span>
         </h1>
 
-        <p className="text-sm sm:text-base text-zinc-600 dark:text-zinc-300 leading-relaxed max-w-3xl">
+        <p className="text-sm sm:text-base text-[#5c4738] leading-relaxed max-w-3xl">
           {item.description}
         </p>
 
         {/* Feature Highlights */}
         {item.features && item.features.length > 0 && (
-          <div className="pt-4 grid sm:grid-cols-2 gap-2.5 text-xs text-zinc-700 dark:text-zinc-300">
+          <div className="pt-4 grid sm:grid-cols-2 gap-2.5 text-xs text-[#362117]">
             {item.features.map((feature, idx) => (
               <div key={idx} className="flex items-start gap-2">
-                <CheckCircle2 size={15} className="text-emerald-500 shrink-0 mt-0.5" />
+                <CheckCircle2 size={15} className="text-[#437a3b] shrink-0 mt-0.5" />
                 <span>{feature}</span>
               </div>
             ))}
@@ -141,29 +140,51 @@ export default async function ComponentDetailPage({
       <section className="space-y-3">
         <div className="flex items-center justify-between">
           <div className="space-y-1">
-            <h2 className="text-xl font-bold text-zinc-900 dark:text-zinc-100 flex items-center gap-2">
-              <Play size={18} className="text-blue-600 dark:text-blue-400" />
+            <h2 className="text-xl font-bold text-[#362117] flex items-center gap-2">
+              <Play size={18} className="text-[#c4432b]" />
               <span>Live Interactive Preview</span>
             </h2>
-            <p className="text-xs text-zinc-500">
+            <p className="text-xs text-[#8a7566]">
               Interact with the live component directly in this browser sandbox.
             </p>
           </div>
         </div>
 
-        <div className="rounded-2xl border border-zinc-200 dark:border-zinc-800 bg-white dark:bg-zinc-900/40 p-6 shadow-xs">
+        <div className="rounded-2xl border border-[#ede5d8] bg-white p-6 shadow-[0_2px_12px_rgba(54,33,23,0.04)]">
           {renderPreview()}
         </div>
       </section>
 
-      {/* 3. Code Example */}
+      {/* 3. Props & Configuration Table */}
       <section className="space-y-3">
         <div className="space-y-1">
-          <h2 className="text-xl font-bold text-zinc-900 dark:text-zinc-100 flex items-center gap-2">
-            <Code2 size={18} className="text-blue-600 dark:text-blue-400" />
+          <div className="flex items-center gap-2">
+            <h2 className="text-xl font-bold text-[#362117] flex items-center gap-2">
+              <Sliders size={18} className="text-[#362117]" />
+              <span>Props & Configuration</span>
+            </h2>
+            {item.props && item.props.length > 0 && (
+              <span className="text-[10px] font-sans px-2.5 py-0.5 rounded-full bg-[#f2ebde] text-[#785c4b] font-bold border border-[#ede5d8]">
+                {item.props.length} props
+              </span>
+            )}
+          </div>
+          <p className="text-xs text-[#8a7566]">
+            Complete property specifications, parameter types, and default fallbacks.
+          </p>
+        </div>
+
+        <PropsTable props={item.props || []} />
+      </section>
+
+      {/* 4. Interactive Code Examples & Features */}
+      <section className="space-y-3">
+        <div className="space-y-1">
+          <h2 className="text-xl font-bold text-[#362117] flex items-center gap-2">
+            <Code2 size={18} className="text-[#c4432b]" />
             <span>Interactive Code Examples & Features</span>
           </h2>
-          <p className="text-xs text-zinc-500">
+          <p className="text-xs text-[#8a7566]">
             Switch between practical examples below demonstrating basic setups, complete props, and declarative backend schemas.
           </p>
         </div>
@@ -175,37 +196,15 @@ export default async function ComponentDetailPage({
         />
       </section>
 
-      {/* 4. Props & Configuration Table */}
-      <section className="space-y-3">
-        <div className="space-y-1">
-          <div className="flex items-center gap-2">
-            <h2 className="text-xl font-bold text-zinc-900 dark:text-zinc-100 flex items-center gap-2">
-              <Sliders size={18} className="text-blue-600 dark:text-blue-400" />
-              <span>Props & Configuration</span>
-            </h2>
-            {item.props && item.props.length > 0 && (
-              <span className="text-[10px] font-sans px-2 py-0.5 rounded-full bg-zinc-100 dark:bg-zinc-800 text-zinc-600 dark:text-zinc-400 font-semibold">
-                {item.props.length} props
-              </span>
-            )}
-          </div>
-          <p className="text-xs text-zinc-500">
-            Complete property specifications, parameter types, and default fallbacks.
-          </p>
-        </div>
-
-        <PropsTable props={item.props || []} />
-      </section>
-
       {/* 5. Expected API Response Schema (if available) */}
       {item.schema && (
         <section className="space-y-3">
           <div className="space-y-1">
-            <h2 className="text-xl font-bold text-zinc-900 dark:text-zinc-100 flex items-center gap-2">
-              <FileJson size={18} className="text-blue-600 dark:text-blue-400" />
+            <h2 className="text-xl font-bold text-[#362117] flex items-center gap-2">
+              <FileJson size={18} className="text-[#c4432b]" />
               <span>Expected Backend API Response Schema</span>
             </h2>
-            <p className="text-xs text-zinc-500">
+            <p className="text-xs text-[#8a7566]">
               Ensure your backend endpoint returns JSON matching this exact structure to prevent hydration and rendering errors.
             </p>
           </div>
@@ -218,11 +217,11 @@ export default async function ComponentDetailPage({
       {item.troubleshooting && item.troubleshooting.length > 0 && (
         <section className="space-y-3">
           <div className="space-y-1">
-            <h2 className="text-xl font-bold text-zinc-900 dark:text-zinc-100 flex items-center gap-2">
-              <AlertTriangle size={18} className="text-amber-500" />
+            <h2 className="text-xl font-bold text-[#362117] flex items-center gap-2">
+              <AlertTriangle size={18} className="text-[#c07212]" />
               <span>Common Response Mismatches & Solutions</span>
             </h2>
-            <p className="text-xs text-zinc-500">
+            <p className="text-xs text-[#8a7566]">
               Known backend schema pitfalls and side-by-side incorrect vs. expected payload fixes.
             </p>
           </div>

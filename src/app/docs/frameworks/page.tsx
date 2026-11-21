@@ -13,16 +13,24 @@ import { AntdRegistry } from "@ant-design/nextjs-registry";
 import { ConfigProvider } from "antd";
 import { DynamicUIProvider } from "antd-dynamic-ui";
 import { useRouter } from "next/navigation";
-import "antd/dist/reset.css";
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {
   const router = useRouter();
 
   return (
     <html lang="en">
-      <body>
+      <body className="bg-[#fbf8f2] text-[#362117]">
         <AntdRegistry>
-          <ConfigProvider theme={{ token: { colorPrimary: "#2563eb", borderRadius: 8 } }}>
+          <ConfigProvider
+            theme={{
+              token: {
+                colorPrimary: "#e05d44",
+                colorBgBase: "#fbf8f2",
+                colorText: "#362117",
+                borderRadius: 12,
+              },
+            }}
+          >
             <DynamicUIProvider onNavigate={(url) => router.push(url)}>
               {children}
             </DynamicUIProvider>
@@ -48,13 +56,21 @@ import { BrowserRouter, useNavigate } from "react-router-dom";
 import { ConfigProvider } from "antd";
 import { DynamicUIProvider } from "antd-dynamic-ui";
 import App from "./App";
-import "antd/dist/reset.css";
 
 function Root() {
   const navigate = useNavigate();
 
   return (
-    <ConfigProvider theme={{ token: { colorPrimary: "#2563eb", borderRadius: 8 } }}>
+    <ConfigProvider
+      theme={{
+        token: {
+          colorPrimary: "#e05d44",
+          colorBgBase: "#fbf8f2",
+          colorText: "#362117",
+          borderRadius: 12,
+        },
+      }}
+    >
       <DynamicUIProvider onNavigate={(url) => navigate(url)}>
         <App />
       </DynamicUIProvider>
@@ -73,12 +89,12 @@ ReactDOM.createRoot(document.getElementById("root")!).render(
   return (
     <div className="space-y-8">
       {/* Header */}
-      <div className="space-y-3 pb-6 border-b border-zinc-200 dark:border-zinc-800">
-        <div className="text-xs font-semibold text-blue-600 dark:text-blue-400">Framework Integration</div>
-        <h1 className="text-3xl font-extrabold tracking-tight text-zinc-900 dark:text-zinc-50">
+      <div className="space-y-3 pb-6 border-b border-[#ede5d8]">
+        <div className="text-xs font-bold text-[#785c4b] uppercase tracking-wider">Framework Integration</div>
+        <h1 className="text-3xl font-extrabold tracking-tight text-[#362117]">
           Integrating with Next.js & Vite
         </h1>
-        <p className="text-sm text-zinc-600 dark:text-zinc-300 leading-relaxed">
+        <p className="text-sm text-[#5c4738] leading-relaxed">
           antd-dynamic-ui is isomorphic and runs smoothly on both SSR/SSG environments and client-only Single Page Applications.
         </p>
       </div>
@@ -86,33 +102,33 @@ ReactDOM.createRoot(document.getElementById("root")!).render(
       {/* Next.js App Router */}
       <div className="space-y-4">
         <div className="flex items-center gap-2">
-          <span className="w-2.5 h-2.5 rounded-full bg-blue-600" />
-          <h2 className="text-xl font-bold text-zinc-900 dark:text-zinc-100">
+          <span className="w-2.5 h-2.5 rounded-full bg-[#c4432b]" />
+          <h2 className="text-xl font-bold text-[#362117]">
             Next.js 14 / 15 (App Router)
           </h2>
         </div>
-        <p className="text-sm text-zinc-600 dark:text-zinc-300 leading-relaxed">
+        <p className="text-sm text-[#5c4738] leading-relaxed">
           To prevent Flash of Unstyled Content (FOUC) and ensure Ant Design CSS is extracted during server-side rendering,
-          install <code className="text-blue-500 font-mono">@ant-design/nextjs-registry</code> and wrap your Root Layout.
+          install <code className="text-[#362117] bg-[#f5eee3] px-1.5 py-0.5 rounded font-mono border border-[#ede5d8]">@ant-design/nextjs-registry</code> and wrap your Root Layout.
         </p>
         <CodeBlock code={nextAppRouterCode} language="tsx" filename="app/layout.tsx" />
 
-        <p className="text-sm text-zinc-600 dark:text-zinc-300 mt-4 leading-relaxed">
-          Ensure <code className="text-blue-500 font-mono">transpilePackages</code> includes <code className="text-blue-500 font-mono">antd-dynamic-ui</code> in your Next.js config:
+        <p className="text-sm text-[#5c4738] mt-4 leading-relaxed">
+          Ensure <code className="text-[#362117] bg-[#f5eee3] px-1.5 py-0.5 rounded font-mono border border-[#ede5d8]">transpilePackages</code> includes <code className="text-[#362117] bg-[#f5eee3] px-1.5 py-0.5 rounded font-mono border border-[#ede5d8]">antd-dynamic-ui</code> in your Next.js config:
         </p>
         <CodeBlock code={nextConfigCode} language="javascript" filename="next.config.mjs" />
       </div>
 
       {/* Vite / React Router */}
-      <div className="space-y-4 pt-6 border-t border-zinc-200 dark:border-zinc-800">
+      <div className="space-y-4 pt-6 border-t border-[#ede5d8]">
         <div className="flex items-center gap-2">
-          <span className="w-2.5 h-2.5 rounded-full bg-purple-600" />
-          <h2 className="text-xl font-bold text-zinc-900 dark:text-zinc-100">
+          <span className="w-2.5 h-2.5 rounded-full bg-[#437a3b]" />
+          <h2 className="text-xl font-bold text-[#362117]">
             Vite / Create React App / React Router SPA
           </h2>
         </div>
-        <p className="text-sm text-zinc-600 dark:text-zinc-300 leading-relaxed">
-          In a client-side SPA, wrap your root with <code className="text-blue-500 font-mono">ConfigProvider</code> and provide React Router’s <code className="text-blue-500 font-mono">navigate</code> function to <code className="text-blue-500 font-mono">DynamicUIProvider</code> so action buttons route without full page reloads.
+        <p className="text-sm text-[#5c4738] leading-relaxed">
+          In a client-side SPA, wrap your root with <code className="text-[#362117] bg-[#f5eee3] px-1.5 py-0.5 rounded font-mono border border-[#ede5d8]">ConfigProvider</code> and provide React Router’s <code className="text-[#362117] bg-[#f5eee3] px-1.5 py-0.5 rounded font-mono border border-[#ede5d8]">navigate</code> function to <code className="text-[#362117] bg-[#f5eee3] px-1.5 py-0.5 rounded font-mono border border-[#ede5d8]">DynamicUIProvider</code> so action buttons route without full page reloads.
         </p>
         <CodeBlock code={viteSetupCode} language="tsx" filename="src/main.tsx" />
       </div>

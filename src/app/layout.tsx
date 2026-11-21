@@ -7,7 +7,7 @@ import "./globals.css";
 export const metadata: Metadata = {
   title: {
     template: "%s | antd-dynamic-ui",
-    default: "antd-dynamic-ui | Next-Gen Schema-Driven UI Framework for Ant Design",
+    default: "antd-dynamic-ui | Schema-Driven UI Framework for Ant Design",
   },
   description:
     "Production-ready, highly optimized, JSON schema-driven Ant Design component suite for React 18/19 and Next.js. Featuring virtualized DynamicTable, Zod-powered DynamicForm, 22+ standard form controls, custom hooks, and comprehensive utilities.",
@@ -46,25 +46,9 @@ export default function RootLayout({
 }) {
   return (
     <html lang="en" suppressHydrationWarning>
-      <head>
-        <script
-          dangerouslySetInnerHTML={{
-            __html: `
-              try {
-                const theme = localStorage.getItem('theme');
-                if (theme === 'dark') {
-                  document.documentElement.classList.add('dark');
-                } else {
-                  document.documentElement.classList.remove('dark');
-                }
-              } catch (e) {}
-            `,
-          }}
-        />
-      </head>
       <body
         suppressHydrationWarning
-        className="min-h-screen bg-white dark:bg-zinc-950 text-zinc-900 dark:text-zinc-100 antialiased font-sans selection:bg-blue-500 selection:text-white"
+        className="min-h-screen bg-[#fbf8f2] text-[#362117] antialiased font-sans selection:bg-[#ede5d8] selection:text-[#362117]"
       >
         <AntdRegistry>
           <AntdProvider>

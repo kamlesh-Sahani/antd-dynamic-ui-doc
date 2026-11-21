@@ -3,7 +3,6 @@ import { notFound } from "next/navigation";
 import type { Metadata } from "next";
 import { HOOKS_DATA } from "@/data/hooksData";
 import PropsTable from "@/components/PropsTable";
-import CodeBlock from "@/components/CodeBlock";
 import MultiCodeExamples from "@/components/MultiCodeExamples";
 import SchemaViewer from "@/components/SchemaViewer";
 import TroubleshootCard from "@/components/TroubleshootCard";
@@ -61,26 +60,26 @@ export default async function HookDetailPage({ params }: HookPageProps) {
   return (
     <div className="space-y-8">
       {/* Header */}
-      <div className="space-y-3 pb-6 border-b border-zinc-200 dark:border-zinc-800">
-        <div className="text-xs font-semibold text-blue-600 dark:text-blue-400">
+      <div className="space-y-3 pb-6 border-b border-[#ede5d8]">
+        <div className="text-xs font-bold text-[#785c4b] uppercase tracking-wider">
           Custom React Hook
         </div>
 
-        <h1 className="text-3xl font-extrabold tracking-tight text-zinc-900 dark:text-zinc-50 flex items-center gap-2">
-          <Cpu className="text-blue-600 dark:text-blue-400" size={28} />
+        <h1 className="text-3xl font-extrabold tracking-tight text-[#362117] flex items-center gap-2">
+          <Cpu className="text-[#c4432b]" size={28} />
           <span>{item.title}</span>
         </h1>
 
-        <p className="text-sm sm:text-base text-zinc-600 dark:text-zinc-300 leading-relaxed max-w-3xl">
+        <p className="text-sm sm:text-base text-[#5c4738] leading-relaxed max-w-3xl">
           {item.description}
         </p>
 
         {/* Feature Highlights */}
         {item.features && item.features.length > 0 && (
-          <div className="pt-4 grid sm:grid-cols-2 gap-2 text-xs text-zinc-700 dark:text-zinc-300">
+          <div className="pt-4 grid sm:grid-cols-2 gap-2 text-xs text-[#362117]">
             {item.features.map((feature, idx) => (
               <div key={idx} className="flex items-start gap-2">
-                <CheckCircle2 size={15} className="text-emerald-500 shrink-0 mt-0.5" />
+                <CheckCircle2 size={15} className="text-[#437a3b] shrink-0 mt-0.5" />
                 <span>{feature}</span>
               </div>
             ))}
@@ -88,12 +87,28 @@ export default async function HookDetailPage({ params }: HookPageProps) {
         )}
       </div>
 
+      {/* Parameters Table */}
+      <div className="space-y-2">
+        <h2 className="text-lg font-bold text-[#362117]">
+          Hook Parameters
+        </h2>
+        <PropsTable props={item.params} />
+      </div>
+
+      {/* Return Values Table */}
+      <div className="space-y-2">
+        <h2 className="text-lg font-bold text-[#362117]">
+          Return Object Properties
+        </h2>
+        <PropsTable props={item.returns} />
+      </div>
+
       {/* Code Examples */}
       <div className="space-y-2">
-        <h2 className="text-lg font-bold text-zinc-900 dark:text-zinc-100">
+        <h2 className="text-lg font-bold text-[#362117]">
           Practical Hook Examples & Workflows
         </h2>
-        <p className="text-xs text-zinc-500">
+        <p className="text-xs text-[#8a7566]">
           Explore quickstart usage, full parameter integration, and production data workflows.
         </p>
         <MultiCodeExamples
@@ -103,26 +118,10 @@ export default async function HookDetailPage({ params }: HookPageProps) {
         />
       </div>
 
-      {/* Parameters Table */}
-      <div className="space-y-2">
-        <h2 className="text-lg font-bold text-zinc-900 dark:text-zinc-100">
-          Hook Parameters
-        </h2>
-        <PropsTable props={item.params} />
-      </div>
-
-      {/* Return Values Table */}
-      <div className="space-y-2">
-        <h2 className="text-lg font-bold text-zinc-900 dark:text-zinc-100">
-          Return Object Properties
-        </h2>
-        <PropsTable props={item.returns} />
-      </div>
-
       {/* Expected Schema if present */}
       {item.schema && (
         <div className="space-y-2">
-          <h2 className="text-lg font-bold text-zinc-900 dark:text-zinc-100">
+          <h2 className="text-lg font-bold text-[#362117]">
             Expected API Response Structure
           </h2>
           <SchemaViewer schema={item.schema} />
@@ -132,7 +131,7 @@ export default async function HookDetailPage({ params }: HookPageProps) {
       {/* Troubleshooting if present */}
       {item.troubleshooting && item.troubleshooting.length > 0 && (
         <div className="space-y-2">
-          <h2 className="text-lg font-bold text-zinc-900 dark:text-zinc-100">
+          <h2 className="text-lg font-bold text-[#362117]">
             Troubleshooting & Common Mistakes
           </h2>
           <TroubleshootCard items={item.troubleshooting} />
