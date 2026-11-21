@@ -5,6 +5,8 @@ import { DynamicModal } from "antd-dynamic-ui";
 import { Button, Tag, message } from "antd";
 import { ExternalLink, ShieldCheck } from "lucide-react";
 
+const Modal = DynamicModal as unknown as React.ComponentType<any>;
+
 export default function DynamicModalPreview({ exampleIndex = 0 }: { exampleIndex?: number }) {
   const [basicOpen, setBasicOpen] = useState(false);
   const [completeOpen, setCompleteOpen] = useState(false);
@@ -22,7 +24,7 @@ export default function DynamicModalPreview({ exampleIndex = 0 }: { exampleIndex
           <span>Inspect Security Policy #SEC-9021</span>
         </button>
 
-        <DynamicModal
+        <Modal
           isOpen={completeOpen}
           onClose={() => setCompleteOpen(false)}
           title={
@@ -77,7 +79,7 @@ export default function DynamicModalPreview({ exampleIndex = 0 }: { exampleIndex
               <span className="text-[#437a3b] font-bold">READY_FOR_DEPLOYMENT</span>
             </div>
           </div>
-        </DynamicModal>
+        </Modal>
       </div>
     );
   }
@@ -89,7 +91,7 @@ export default function DynamicModalPreview({ exampleIndex = 0 }: { exampleIndex
         Open Confirmation Modal
       </Button>
 
-      <DynamicModal
+      <Modal
         isOpen={basicOpen}
         onClose={() => setBasicOpen(false)}
         title="Administrative Confirmation"
@@ -118,7 +120,7 @@ export default function DynamicModalPreview({ exampleIndex = 0 }: { exampleIndex
             Target: s3://enterprise-archives-2026/users.tar.gz
           </div>
         </div>
-      </DynamicModal>
+      </Modal>
     </div>
   );
 }
