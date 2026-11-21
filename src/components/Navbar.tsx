@@ -98,6 +98,9 @@ export default function Navbar() {
             className="p-2 rounded-lg text-zinc-600 dark:text-zinc-400 hover:bg-zinc-100 dark:hover:bg-zinc-800 transition-colors"
           >
             <svg
+              width="18"
+              height="18"
+              style={{ width: "18px", height: "18px" }}
               className="w-[18px] h-[18px] fill-current"
               viewBox="0 0 24 24"
               xmlns="http://www.w3.org/2000/svg"
