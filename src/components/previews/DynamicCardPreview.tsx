@@ -39,23 +39,23 @@ const sampleCards = [
 export default function DynamicCardPreview() {
   return (
     <div className="w-full space-y-4">
-      <div className="flex items-center justify-between text-xs px-1 text-zinc-500">
+      <div className="flex items-center justify-between text-xs px-1 text-[#785c4b]">
         <div className="flex items-center gap-2">
-          <span className="w-2 h-2 rounded-full bg-emerald-500" />
-          <span className="font-semibold text-zinc-700 dark:text-zinc-300">Infinite Scroll Card Grid</span>
+          <span className="w-2 h-2 rounded-full bg-[#437a3b]" />
+          <span className="font-bold text-[#362117]">Infinite Scroll Card Grid</span>
         </div>
-        <span className="font-mono text-zinc-400 text-[11px]">3 sample entities</span>
+        <span className="font-mono text-[#8a7566] text-[11px]">3 sample entities</span>
       </div>
 
       <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
         {sampleCards.map((card, idx) => (
           <div
             key={idx}
-            className="p-4 rounded-xl border border-zinc-200 dark:border-zinc-800 bg-white dark:bg-zinc-900 shadow-xs hover:border-blue-500/50 transition-all flex flex-col justify-between space-y-3"
+            className="p-4 rounded-xl border border-[#ede5d8] bg-white shadow-xs hover:border-[#e05d44]/50 transition-all flex flex-col justify-between space-y-3"
           >
             <div>
               <div className="flex items-start justify-between gap-2 mb-2">
-                <h4 className="font-semibold text-sm text-zinc-900 dark:text-zinc-100 leading-snug">
+                <h4 className="font-bold text-sm text-[#362117] leading-snug">
                   {card.title}
                 </h4>
                 <Tag color={card.status === "active" ? "green" : "gold"}>
@@ -63,17 +63,17 @@ export default function DynamicCardPreview() {
                 </Tag>
               </div>
 
-              <div className="space-y-1.5 pt-2 border-t border-zinc-100 dark:border-zinc-800/80">
+              <div className="space-y-1.5 pt-2 border-t border-[#ede5d8]">
                 {card.info.map((item, i) => (
                   <div key={i} className="flex justify-between text-xs">
-                    <span className="text-zinc-500">{item.key}:</span>
-                    <span className="font-medium text-zinc-800 dark:text-zinc-200">{item.value}</span>
+                    <span className="text-[#785c4b]">{item.key}:</span>
+                    <span className="font-semibold text-[#362117]">{item.value}</span>
                   </div>
                 ))}
               </div>
             </div>
 
-            <div className="text-[11px] text-blue-600 dark:text-blue-400 font-medium pt-2">
+            <div className="text-[11px] text-[#c4432b] font-bold pt-2">
               Click to view details →
             </div>
           </div>

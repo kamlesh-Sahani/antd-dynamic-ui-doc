@@ -26,17 +26,19 @@ export default function DynamicDrawerPreview() {
           </div>
         }
       >
-        <div className="space-y-4 text-sm text-zinc-700 dark:text-zinc-300">
-          <div className="flex items-center justify-between p-3 rounded-lg bg-zinc-100 dark:bg-zinc-800">
-            <span className="font-medium">Transaction #84920</span>
+        <div className="space-y-4 text-sm text-[#362117]">
+          <div className="flex items-center justify-between p-3.5 rounded-xl bg-[#f5eee3] border border-[#ede5d8]">
+            <span className="font-bold text-[#362117]">Transaction #84920</span>
             <Tag color="green">SUCCESS</Tag>
           </div>
-          <p className="text-xs text-zinc-500 leading-relaxed">
+          <p className="text-xs text-[#5c4738] leading-relaxed">
             DynamicDrawer renders smooth slide-out drawers on any edge (right, left, top, bottom) with custom title bars, back buttons, and sticky footers.
           </p>
-          <div className="border-t border-zinc-200 dark:border-zinc-800 pt-3 space-y-2">
-            <div className="text-xs font-semibold text-zinc-400">Timestamp</div>
-            <div className="text-xs font-mono">2026-11-21 12:45:00 UTC</div>
+          <div className="border-t border-[#ede5d8] pt-3 space-y-1.5">
+            <div className="text-xs font-bold text-[#785c4b]">Timestamp</div>
+            <div className="text-xs font-mono text-[#362117] bg-[#f2ebde] px-2.5 py-1 rounded-md inline-block">
+              2026-11-21 12:45:00 UTC
+            </div>
           </div>
         </div>
       </DynamicDrawer>
