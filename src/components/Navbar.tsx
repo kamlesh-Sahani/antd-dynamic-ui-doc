@@ -12,11 +12,14 @@ export default function Navbar() {
 
   useEffect(() => {
     if (typeof window !== "undefined") {
-      const isDarkMode = document.documentElement.classList.contains("dark") ||
-        window.matchMedia("(prefers-color-scheme: dark)").matches;
+      const stored = localStorage.getItem("theme");
+      // Default to light mode unless user explicitly set "dark"
+      const isDarkMode = stored === "dark";
       setIsDark(isDarkMode);
       if (isDarkMode) {
         document.documentElement.classList.add("dark");
+      } else {
+        document.documentElement.classList.remove("dark");
       }
     }
   }, []);
